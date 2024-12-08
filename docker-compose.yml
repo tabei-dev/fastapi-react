@@ -1,0 +1,43 @@
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    volumes:
+      - ./apps/backend:/backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://usr:0000@db:5432/fastapi_db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    volumes:
+      - ./apps/frontend:/frontend
+    ports:
+      - "5173:5173"
+    command: ["npm", "run", "dev"]
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: 0000
+      POSTGRES_DB: fastapi_db
+    ports:
+      - "5432:5432"
