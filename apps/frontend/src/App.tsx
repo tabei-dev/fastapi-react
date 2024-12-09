@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
 
 const App = (): JSX.Element => {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
   const [data, setData] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:8000/api/data')
       .then(response => response.json())
-      .then(data => data ? setData(JSON.stringify(data.data)) : setData('Loading...'));
+      .then(data => (data ? setData(JSON.stringify(data.data)) : setData('Loading...')));
   }, []);
 
   return (
@@ -26,17 +26,13 @@ const App = (): JSX.Element => {
       <h1>Vite + React</h1>
       <div>{data}</div>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </>
-  )
+  );
 };
 export default App;

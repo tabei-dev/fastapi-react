@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: docker/nginx/Dockerfile
     ports:
-      - "80:80"
+      - "${WEB_PORT}:${WEB_DEFAULT_PORT}"
     depends_on:
       - backend
       - frontend
@@ -17,9 +17,9 @@ services:
     volumes:
       - ./apps/backend:/backend
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT}:${FASTAPI_PORT}"
     environment:
-      - DATABASE_URL=postgresql://sa:sa0000@db:5432/fastapi_db
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - db
 
@@ -29,9 +29,9 @@ services:
       dockerfile: docker/node/Dockerfile
     volumes:
       - ./apps/frontend:/frontend
-      - /frontend/node_modules
+      - ./apps/frontend/node_modules:/frontend/node_modules
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT}:${VITE_PORT}"
     command: ["npm", "run", "dev"]
     depends_on:
       - backend
@@ -39,11 +39,11 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_USER: sa
-      POSTGRES_PASSWORD: sa0000
-      POSTGRES_DB: fastapi_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${POSTGRES_DEFAULT_PORT}"
     volumes:
       - pg-data:/var/lib/postgresql/data
 
