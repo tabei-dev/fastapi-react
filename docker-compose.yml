@@ -19,7 +19,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://usr:0000@db:5432/fastapi_db
+      - DATABASE_URL=postgresql://sa:sa0000@db:5432/fastapi_db
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -35,10 +37,15 @@ services:
       - backend
 
   db:
-    image: postgres:13
+    image: postgres:latest
     environment:
-      POSTGRES_USER: usr
-      POSTGRES_PASSWORD: 0000
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: sa0000
       POSTGRES_DB: fastapi_db
     ports:
       - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+volumes:
+  pg-data:
