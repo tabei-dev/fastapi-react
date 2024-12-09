@@ -11,7 +11,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -19,8 +19,8 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
-    return {"message": "Hello from FastAPI!"}
+    return {"message": "Hello from FastAPI!!"}
 
 @app.get("/api/data")
 async def get_data():
-    return {"data": "This is some data from FastAPI"}
+    return {"data": "This is some data from FastAPI!!"}

@@ -1,0 +1,15 @@
+{
+  "name": "Frontend Dev Environment",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "frontend",
+  "workspaceFolder": "/frontend",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "runServices": ["backend", "frontend", "db"],
+  "shutdownAction": "stopCompose"
+}
