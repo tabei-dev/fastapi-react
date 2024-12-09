@@ -27,8 +27,8 @@ services:
       dockerfile: docker/node/Dockerfile
     volumes:
       - ./apps/frontend:/frontend
+      - /frontend/node_modules
     ports:
-      # - "5173:5173"
       - "3000:3000"
     command: ["npm", "run", "dev"]
     depends_on:
