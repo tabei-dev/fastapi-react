@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import '@/App.css';
-import axios from '@/utils/axios';
+import axios from '@/config/axios';
 
 const App = () => {
   const [count, setCount] = useState(0);

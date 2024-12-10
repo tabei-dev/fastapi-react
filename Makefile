@@ -37,12 +37,19 @@ log-db:
 	docker compose logs db
 log-db-watch:
 	docker compose logs --follow db
+
 # web:
 # 	docker compose exec web ash
 # pytest-%:
 # 	docker compose exec web pytest ${@:pytest-%=%}
+
 backend:
 	docker compose exec backend sh
+pip-ig:
+	docker compose exec backend pip install -U pip
+pip-install:
+	docker compose exec backend pip install -r requirements.txt
+
 frontend:
 	docker compose exec frontend sh
 npm-ig:
@@ -79,6 +86,7 @@ npm-test-watch:
 # 	docker compose exec frontend npx -p npm-check-updates -c "ncu"
 # npm-update:
 # 	docker compose exec frontend npx -p npm-check-updates -c "ncu -u"
+
 db:
 	docker compose exec db bash
 sql:
