@@ -1,17 +1,12 @@
-# from fastapi import FastAPI
-# app = FastAPI()
-# @app.get("/")
-# def read_root():
-#     return {"message": "Hell, FastAPI!"}
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .settings import settings
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[settings.allow_origins],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -23,4 +18,4 @@ async def read_root():
 
 @app.get("/api/data")
 async def get_data():
-    return {"data": "This is some data from FastAPI!!"}
+    return {"data": "This is some data from FastAPI!!!"}

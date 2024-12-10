@@ -1,2 +1,3 @@
 apps/backend/app/__pycache__
+apps/backend/tests/__pycache__
 apps/frontend/node_modules

@@ -9,12 +9,14 @@ const App = (): JSX.Element => {
   const [data, setData] = useState('');
 
   useEffect(() => {
-    axios.get('/api/data')
-    // fetch('http://localhost:8000/api/data')
-      .then(response => response.data)
-      .then(data => setData(data.data));
-      // .then(data => (data ? setData(JSON.stringify(data.data)) : setData('Loading...')));
-      // .then(data => (data ? setData(data.data) : setData('Loading...')));
+    (async () => {
+      try {
+        const response = await axios.get('/api/data');
+        setData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    })();
   }, []);
 
   return (
