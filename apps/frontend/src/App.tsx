@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css';
-import axios from './utils/axios';
+import '@/App.css';
+import axios from '@/utils/axios';
 
 const App = (): JSX.Element => {
   const [count, setCount] = useState(0);
@@ -11,7 +11,8 @@ const App = (): JSX.Element => {
   useEffect(() => {
     axios.get('/api/data')
     // fetch('http://localhost:8000/api/data')
-      .then(response => setData(response.data.data));
+      .then(response => response.data)
+      .then(data => setData(data.data));
       // .then(data => (data ? setData(JSON.stringify(data.data)) : setData('Loading...')));
       // .then(data => (data ? setData(data.data) : setData('Loading...')));
   }, []);
