@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import '@/App.css';
 import axios from '@/utils/axios';
 
-const App = (): JSX.Element => {
+const App = () => {
   const [count, setCount] = useState(0);
   const [data, setData] = useState('');
 
