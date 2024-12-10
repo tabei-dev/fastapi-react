@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .settings import settings
+from app.config.settings import settings
 
 app = FastAPI()
 

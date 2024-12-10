@@ -49,6 +49,8 @@ pip-ig:
 	docker compose exec backend pip install -U pip
 pip-install:
 	docker compose exec backend pip install -r requirements.txt
+pytest:
+	docker compose exec backend pytest tests/
 
 frontend:
 	docker compose exec frontend sh
