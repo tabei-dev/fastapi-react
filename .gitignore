@@ -1,2 +1,3 @@
 apps/backend/**/__pycache__
+apps/backend/**/.pytest_cache
 apps/frontend/node_modules

@@ -1,3 +1,6 @@
+#
+# データベース接続
+#
 from fastapi import FastAPI
 import psycopg2
 from app.config.settings import settings
