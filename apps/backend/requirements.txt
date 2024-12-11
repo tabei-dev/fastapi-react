@@ -2,6 +2,7 @@ fastapi
 uvicorn[standard]
 pydantic
 pydantic-settings
-pytest
 psycopg2-binary
 sqlalchemy
+pipenv
+pytest
