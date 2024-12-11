@@ -20,7 +20,6 @@ services:
       - "${DB_PORT}:${POSTGRES_DEFAULT_PORT}"
     volumes:
       - pg-data:/var/lib/postgresql/data
-      - ./db/pgdata:/var/lib/postgresql/data
     networks:
       - pg-network
 
