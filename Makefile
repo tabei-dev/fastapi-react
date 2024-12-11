@@ -13,6 +13,8 @@ restart:
 	@make up
 destroy:
 	docker compose down --rmi all --volumes --remove-orphans
+prune-volumes:
+	docker volume prune -f
 ps:
 	docker compose ps
 ps-a:
