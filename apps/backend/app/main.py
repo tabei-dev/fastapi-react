@@ -13,13 +13,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event("startup")
-async def startup():
-    app.state.db = psycopg2.connect(settings.database_url)
+# @app.on_event("startup")
+# async def startup():
+#     app.state.db = psycopg2.connect(settings.database_url)
 
-@app.on_event("shutdown")
-async def shutdown():
-    app.state.db.close()
+# @app.on_event("shutdown")
+# async def shutdown():
+#     app.state.db.close()
 
 @app.get("/")
 async def read_root():

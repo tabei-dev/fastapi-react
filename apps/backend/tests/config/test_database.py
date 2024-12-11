@@ -1,10 +1,9 @@
 import pytest
 from fastapi import FastAPI
-from app.config.settings import Settings
 from app.config.database import connect_db, close_db
 
 class MockSettings:
-    database_url = settings.database_url
+    database_url = "postgresql://sa:sa0000@db:5432/fastapi_db"
 
 @pytest.fixture
 def app():

@@ -90,7 +90,7 @@ npm-test-watch:
 # 	docker compose exec frontend npx -p npm-check-updates -c "ncu -u"
 
 db:
-	docker compose exec db sh
+	docker compose exec db bash
 sql:
 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 redis:
