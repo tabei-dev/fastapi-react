@@ -53,6 +53,8 @@ pip-install:
 	docker compose exec backend pip install -r requirements.txt
 pytest:
 	docker compose exec backend pytest tests/
+mypy:
+	docker compose exec backend mypy .
 
 frontend:
 	docker compose exec frontend sh

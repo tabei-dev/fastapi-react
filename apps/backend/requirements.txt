@@ -1,8 +1,11 @@
 fastapi
 uvicorn[standard]
+pipenv
+pytest
+mypy
+types-psycopg2
+typing-extensions
 pydantic
 pydantic-settings
 psycopg2-binary
 sqlalchemy
-pipenv
-pytest
