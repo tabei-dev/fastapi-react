@@ -51,6 +51,8 @@ pip-ig:
 	docker compose exec backend pip install -U pip
 pip-install:
 	docker compose exec backend pip install -r requirements.txt
+pip-uninstall-%:
+	docker compose exec backend pip uninstall ${@:pip-uninstall-%=%}
 pytest:
 	docker compose exec backend pytest tests/
 mypy:
