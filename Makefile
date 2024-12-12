@@ -57,8 +57,16 @@ pytest:
 	docker compose exec backend pytest tests/
 mypy:
 	docker compose exec backend mypy .
-pipenv-upgrade:
-	docker compose exec backend pipenv run upgrade
+alembic-init-alembic:
+	docker compose exec backend pipenv run alembic init alembic
+alembic-init-migration:
+	docker compose exec backend pipenv run alembic init migration
+alembic-revision-%:
+	docker compose exec backend pipenv run alembic revision --autogenerate -m "${@:alembic-revision-%=%}"
+alembic-upgrade:
+	docker compose exec backend pipenv run alembic upgrade head
+# pipenv-upgrade:
+# 	docker compose exec backend pipenv run upgrade
 
 frontend:
 	docker compose exec frontend sh
