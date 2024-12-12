@@ -3,12 +3,15 @@ from datetime import datetime
 from .model_base import ModelBase
 from sqlalchemy import Column, Integer, String, DateTime
 
+#
+# Userモデルクラス
+#
 class User(ModelBase):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, nullable=False)
-    email = Column(String, nullable=False)
-    password = Column(String, nullable=False)
+    username = Column(String(60), nullable=False)
+    email = Column(String(256), nullable=False)
+    password = Column(String(60), nullable=False)
     from_date = Column(DateTime, nullable=False)
     to_date = Column(DateTime, nullable=True, default=None)
     created_at = Column(DateTime, default=datetime.utcnow)

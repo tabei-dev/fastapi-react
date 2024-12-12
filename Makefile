@@ -57,6 +57,8 @@ pytest:
 	docker compose exec backend pytest tests/
 mypy:
 	docker compose exec backend mypy .
+pipenv-upgrade:
+	docker compose exec backend pipenv run upgrade
 
 frontend:
 	docker compose exec frontend sh

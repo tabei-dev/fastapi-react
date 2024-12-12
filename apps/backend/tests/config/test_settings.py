@@ -2,6 +2,11 @@ import os
 from app.config.settings import Settings
 # from pydantic import BaseSettings
 
+def test_settings_env_environment(monkeypatch):
+    monkeypatch.setenv("ENVIRONMENT", "development")
+    settings = Settings()
+    assert settings.environment == "development"
+
 def test_settings_env_allow_origins(monkeypatch):
     monkeypatch.setenv("ALLOW_ORIGINS", "http://localhost:3000")
     settings = Settings()
