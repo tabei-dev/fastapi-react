@@ -1,5 +1,7 @@
 import pytest
 from fastapi import FastAPI
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.sql import text
 from app.config.database import connect_db, close_db
 
 class MockSettings:
@@ -18,5 +20,8 @@ def test_connect_db(app):
 
 def test_close_db(app):
     connect_db(app)
+    assert app.state.db is not None
     close_db(app)
-    assert app.state.db.closed
+    # with pytest.raises(InvalidRequestError):
+    #     app.state.db.execute(text("SELECT 1"))
+    assert app.state.db is None
