@@ -11,6 +11,5 @@ psycopg2-binary
 sqlalchemy
 sqlalchemy_utils
 alembic
-passlib
-bcrypt
+passlib[argon2]
 uuid

@@ -11,7 +11,7 @@ class User(ModelBase):
     uuid: Mapped[str] = Column(UUIDType(binary=False), primary_key=True, default=uuid4)
     username: Mapped[str] = Column(String(60), nullable=False)
     email: Mapped[str] = Column(String(256), nullable=False)
-    password: Mapped[str] = Column(String(60), nullable=False)
+    password: Mapped[str] = Column(String(256), nullable=False)
     from_date: Mapped[datetime] = Column(DateTime, nullable=False)
     to_date: Mapped[Optional[datetime]] = Column(DateTime, nullable=True, default=None)
     created_at: Mapped[datetime] = Column(DateTime, default=lambda: datetime.now(timezone.utc))
