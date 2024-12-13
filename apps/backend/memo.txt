@@ -1,0 +1,13 @@
+＜マイグレーションファイルをすべて削除し、改めて作り直す方法＞
+
+1.DBにテーブルが存在したらすべて削除
+※alembic_versionというテーブルも削除
+
+2.マイグレーションファイルをすべて削除
+# rm -rf ./migration/versions/*
+
+3.マイグレーションファイルを作成
+# pipenv run alembic revision --autogenerate -m "initial migration"
+
+4.マイグレーションを適用してDBにテーブル作成
+# pipenv run alembic upgrade head
