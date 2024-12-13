@@ -23,8 +23,3 @@ bcrypt = "*"
 
 [requires]
 python_version = "3.10"
-
-[scripts]
-remove-all-migrations = "rm -rf ./migration/versions/*"
-init-migration = "alembic init migration"
-upgrade = "alembic upgrade head"

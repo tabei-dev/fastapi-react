@@ -3,7 +3,7 @@
 #
 from fastapi import FastAPI
 import psycopg2
-from app.config.settings import settings
+# from app.config.settings import settings
 
 def connect_db(app: FastAPI):
     if app.state.settings.database_url:
