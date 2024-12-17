@@ -8,8 +8,8 @@ from datetime import datetime
 from fastapi import FastAPI
 # from app.config.settings import settings
 from app.config.database import connect_db, close_db
-from app.storage.models.user import User
-from app.storage.hash import Hash
+from app.config.hash import Hash
+from app.models.user import User
 
 class Settings:
     database_url = "postgresql://sa:sa0000@db:5432/fastapi_db"
