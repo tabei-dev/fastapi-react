@@ -19,8 +19,6 @@ prune-volumes:
 	docker volume prune -f
 ps:
 	docker compose ps
-ps-a:
-	docker compose ps -a
 logs:
 	docker compose logs
 logs-watch:
