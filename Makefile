@@ -1,5 +1,7 @@
 up:
 	docker compose up
+up-d:
+	docker compose up -d
 build:
 	docker compose build --no-cache --force-rm
 stop:
@@ -17,8 +19,6 @@ prune-volumes:
 	docker volume prune -f
 ps:
 	docker compose ps
-ps-a:
-	docker compose ps -a
 logs:
 	docker compose logs
 logs-watch:
