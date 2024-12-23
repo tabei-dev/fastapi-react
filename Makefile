@@ -67,6 +67,20 @@ alembic-upgrade:
 	docker compose exec backend pipenv run alembic upgrade head
 # pipenv-upgrade:
 # 	docker compose exec backend pipenv run upgrade
+rm-migrations:
+	rm -rf apps/backend/alembic/versions/*
+	docker compose exec backend rm -rf alembic/versions/*
+init-migrations:
+	docker compose exec backend pipenv run alembic revision --autogenerate -m "initial migration"
+upgrade-head:
+	docker compose exec backend pipenv run alembic upgrade head
+seed:
+	docker compose exec backend python3 alembic/seed.py
+init-db:
+	@make rm-migrations
+	@make init-migrations
+	@make upgrade-head
+	@make seed
 
 frontend:
 	docker compose exec frontend sh

@@ -1,5 +1,5 @@
 rm-migrations:
-	rm -rf ./alembic/versions/*
+	rm -rf alembic/versions/*
 init-migrations:
 	pipenv run alembic revision --autogenerate -m "initial migration"
 upgrade-head:
