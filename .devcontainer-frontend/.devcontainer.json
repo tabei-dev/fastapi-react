@@ -1,6 +1,6 @@
 {
   "name": "Frontend Dev Environment",
-  "dockerComposeFile": "../docker-compose.yml",
+  "dockerComposeFile": "../compose.yml",
   "service": "frontend",
   "workspaceFolder": "/frontend",
   "customizations": {

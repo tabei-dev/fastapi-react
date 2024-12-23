@@ -1,6 +1,6 @@
 up:
 	docker compose up
-up-d:
+upd:
 	docker compose up -d
 build:
 	docker compose build --no-cache --force-rm
@@ -46,7 +46,7 @@ log-db-watch:
 # 	docker compose exec web pytest ${@:pytest-%=%}
 
 backend:
-	docker compose exec backend sh
+	docker compose exec backend bash
 pip-ig:
 	docker compose exec backend pip install -U pip
 pip-install:

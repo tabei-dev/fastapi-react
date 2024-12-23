@@ -4,3 +4,5 @@ init-migrations:
 	pipenv run alembic revision --autogenerate -m "initial migration"
 upgrade-head:
 	pipenv run alembic upgrade head
+seed:
+	python3 alembic/seed.py

@@ -1,6 +1,6 @@
 {
   "name": "Backend Dev Environment",
-  "dockerComposeFile": "../docker-compose.yml",
+  "dockerComposeFile": "../compose.yml",
   "service": "backend",
   "workspaceFolder": "/backend",
   "customizations": {
