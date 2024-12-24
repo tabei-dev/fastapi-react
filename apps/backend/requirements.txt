@@ -16,3 +16,4 @@ uuid
 redis
 pyjwt
 httpx
+python-multipart
