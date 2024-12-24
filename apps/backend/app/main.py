@@ -1,6 +1,7 @@
 import psycopg2
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+# from app.config.database import connect_db, close_db
 from app.config.settings import settings
 from app.controllers.auth import app as auth_app
 
@@ -15,12 +16,12 @@ app.add_middleware(
 )
 
 # @app.on_event("startup")
-# async def startup():
-#     app.state.db = psycopg2.connect(settings.database_url)
+# async def startup_event():
+#     connect_db(app)
 
 # @app.on_event("shutdown")
-# async def shutdown():
-#     app.state.db.close()
+# async def shutdown_event():
+#     close_db(app)
 
 @app.get("/")
 async def read_root():

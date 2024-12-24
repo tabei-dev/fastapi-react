@@ -4,10 +4,13 @@ import jwt
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
+from app.config.database import get_db
 from app.config.hash import Hash
 from app.config.settings import settings
+from app.models.user import User as UserModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -37,12 +40,12 @@ class User(BaseModel):
     username: str
     password: str
 
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "password": Hash().get_password_hash("secret")
-    }
-}
+# fake_users_db = {
+#     "johndoe": {
+#         "username": "johndoe",
+#         "password": Hash().get_password_hash("secret")
+#     }
+# }
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -63,23 +66,23 @@ def verify_token(token: str):
         token_data = TokenData(username=username)
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
-    
+
     # トークンがブラックリストにあるか確認
     if r.get(token):
         raise HTTPException(status_code=401, detail="Token has been revoked")
-    
+
     return token_data
 
 @app.post("/token", response_model=Token)
-async def login(user: User):
+async def login(user: User, db: Session = Depends(get_db)):
     logger.info(f"Login attempt for user: {user.username}")  # ログ出力
-    user_dict = fake_users_db.get(user.username)
+    user_dict = db.query(UserModel).filter(UserModel.username == user.username).first()
     logger.info(f"user_dict: {user_dict}")  # ログ出力
     if user_dict:
-        logger.info(f"Password: {user.password} {user_dict['password']}")  # ログ出力
-    if not user_dict or not Hash().verify_password(user.password, user_dict["password"]):
+        logger.info(f"Password: {user.password} {user_dict.password}")  # ログ出力
+    if not user_dict or not Hash().verify_password(user.password, user_dict.password):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
-    
+
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires

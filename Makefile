@@ -12,7 +12,7 @@ down-v:
 	docker compose down --remove-orphans --volumes
 restart:
 	@make down
-	@make up
+	@make upd
 destroy:
 	docker compose down --rmi all --volumes --remove-orphans
 prune-volumes:
