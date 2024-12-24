@@ -39,8 +39,6 @@ services:
       - ./apps/backend:/backend
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://sa:sa0000@db:5432/fastapi_db
     depends_on:
       - db
     networks:
