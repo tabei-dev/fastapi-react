@@ -2,7 +2,7 @@ import psycopg2
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config.settings import settings
-from app.auth import app as auth_app
+from app.controllers.auth import app as auth_app
 
 app = FastAPI()
 
@@ -30,4 +30,5 @@ async def read_root():
 async def get_data():
     return {"data": "This is some data from FastAPI!!!"}
 
-app.mount("/auth", auth_app)
+# app.mount("/auth", auth_app)
+app.include_router(auth_app, prefix="/auth")

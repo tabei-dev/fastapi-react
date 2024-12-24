@@ -1,16 +1,21 @@
-# import os
+import logging
 import redis
 import jwt
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from app.config.hash import Hash
 from app.config.settings import settings
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # load_dotenv()  # .envファイルから環境変数を読み込む
 
-app = FastAPI()
+# app = FastAPI()
+app = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Redisに接続
@@ -35,7 +40,7 @@ class User(BaseModel):
 fake_users_db = {
     "johndoe": {
         "username": "johndoe",
-        "password": "secret"
+        "password": Hash().get_password_hash("secret")
     }
 }
 
@@ -67,8 +72,12 @@ def verify_token(token: str):
 
 @app.post("/token", response_model=Token)
 async def login(user: User):
+    logger.info(f"Login attempt for user: {user.username}")  # ログ出力
     user_dict = fake_users_db.get(user.username)
-    if not user_dict or user_dict["password"] != user.password:
+    logger.info(f"user_dict: {user_dict}")  # ログ出力
+    if user_dict:
+        logger.info(f"Password: {user.password} {user_dict['password']}")  # ログ出力
+    if not user_dict or not Hash().verify_password(user.password, user_dict["password"]):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

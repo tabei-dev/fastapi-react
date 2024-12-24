@@ -32,6 +32,7 @@ export default [
         { allowConstantExport: true },
       ],
       'prettier/prettier': ['warn', { 'singleQuote': true }],
+      // 'arrow-parens': ['error', 'always'],
       'import/order': [
         'warn',
         {

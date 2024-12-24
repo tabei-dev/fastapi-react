@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import { RecoilRoot, RecoilEnv } from 'recoil';
+import AppTheme from '@/AppTheme';
+import LoginPage from '@/pages/LoginPage';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import '@/App.css';
 import axios from '@/config/axios';
+
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 const App = () => {
   const [count, setCount] = useState(0);
@@ -21,25 +29,16 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      {/* <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div> */}
-      <h1>Vite + React</h1>
-      <div>{data}</div>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <ThemeProvider theme={AppTheme}>
+      <CssBaseline />
+      <RecoilRoot>
+        <Router>
+          <Routes>
+            <Route index element={<LoginPage />} />
+          </Routes>
+        </Router>
+      </RecoilRoot>
+    </ThemeProvider>
   );
 };
 export default App;
