@@ -1,7 +1,8 @@
+import psycopg2
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config.settings import settings
-import psycopg2
+from app.auth import app as auth_app
 
 app = FastAPI()
 
@@ -28,3 +29,5 @@ async def read_root():
 @app.get("/api/data")
 async def get_data():
     return {"data": "This is some data from FastAPI!!!"}
+
+app.mount("/auth", auth_app)

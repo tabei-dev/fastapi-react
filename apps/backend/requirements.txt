@@ -13,3 +13,5 @@ sqlalchemy_utils
 alembic
 passlib[argon2]
 uuid
+redis
+pyjwt

@@ -24,6 +24,13 @@ services:
     networks:
       - pg-network
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - pg-network
+
   backend:
     build:
       context: .

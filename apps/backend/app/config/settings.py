@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     environment: str = os.getenv("ENVIRONMENT", "development")
     allow_origins: str = os.getenv("ALLOW_ORIGINS", "http://example.com")
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///./test.db")
+    secret_key: str = os.getenv("SECRET_KEY", "secret")
 
     model_config = SettingsConfigDict(env_file=os.path.join(os.path.dirname(__file__), '../..', '.env'))
 

@@ -8,9 +8,6 @@ RUN apt-get update && apt-get install -y \
     make \
     && rm -rf /var/lib/apt/lists/*
 
-# RUN python -m venv /backend/venv
-# ENV PATH="/backend/venv/bin:$PATH"
-
 RUN pip install --upgrade pip
 
 COPY apps/backend/requirements.txt ./

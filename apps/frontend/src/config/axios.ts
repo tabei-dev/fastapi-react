@@ -12,16 +12,15 @@ const Axios: AxiosInstance = axios.create({
 });
 
 const isObject = (target: unknown) =>
-  Object.prototype.toString.call(target).slice(8, -1).toLowerCase() ===
-  'object';
+  Object.prototype.toString.call(target).slice(8, -1).toLowerCase() === 'object';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const convertSnakeToCamel = (target: any) => {
   if (Array.isArray(target)) {
-    target.forEach((t) => convertSnakeToCamel(t));
+    target.forEach(t => convertSnakeToCamel(t));
   }
   if (isObject(target)) {
-    Object.keys(target).forEach((key) => {
+    Object.keys(target).forEach(key => {
       if (isObject(target[key]) || Array.isArray(target[key])) {
         convertSnakeToCamel(target[key]);
       }
@@ -40,13 +39,13 @@ const convertSnakeToCamel = (target: any) => {
   }
 };
 
-Axios.interceptors.request.use((request) => {
+Axios.interceptors.request.use(request => {
   const token = localStorage.getItem('auth_token');
   request.headers.Authorization = token ? `Bearer ${token}` : '';
   return request;
 });
 
-Axios.interceptors.response.use((response) => {
+Axios.interceptors.response.use(response => {
   if (response.data) {
     convertSnakeToCamel(response.data);
   }
