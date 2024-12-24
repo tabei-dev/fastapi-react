@@ -1,4 +1,5 @@
 apps/backend/venv
+apps/backend/alembic/versions/*
 apps/backend/**/__pycache__
 apps/backend/**/.mypy_cache
 apps/backend/**/.pytest_cache
