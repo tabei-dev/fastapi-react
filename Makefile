@@ -57,14 +57,14 @@ pytest:
 	docker compose exec backend pytest tests/
 mypy:
 	docker compose exec backend mypy .
-alembic-init-alembic:
-	docker compose exec backend pipenv run alembic init alembic
-alembic-init-migration:
-	docker compose exec backend pipenv run alembic init migration
-alembic-revision-%:
-	docker compose exec backend pipenv run alembic revision --autogenerate -m "${@:alembic-revision-%=%}"
-alembic-upgrade:
-	docker compose exec backend pipenv run alembic upgrade head
+# alembic-init-alembic:
+# 	docker compose exec backend pipenv run alembic init alembic
+# alembic-init-migration:
+# 	docker compose exec backend pipenv run alembic init migration
+# alembic-revision-%:
+# 	docker compose exec backend pipenv run alembic revision --autogenerate -m "${@:alembic-revision-%=%}"
+# alembic-upgrade:
+# 	docker compose exec backend pipenv run alembic upgrade head
 # pipenv-upgrade:
 # 	docker compose exec backend pipenv run upgrade
 rm-migrations:
@@ -119,9 +119,9 @@ npm-test-watch:
 # npm-update:
 # 	docker compose exec frontend npx -p npm-check-updates -c "ncu -u"
 
-db:
+postgres:
 	docker compose exec db bash
-sql:
-	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
-redis:
-	docker compose exec redis redis-cli
+# sql:
+# 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
+# redis:
+# 	docker compose exec redis redis-cli
