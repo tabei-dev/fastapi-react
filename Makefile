@@ -45,28 +45,20 @@ log-db-watch:
 # pytest-%:
 # 	docker compose exec web pytest ${@:pytest-%=%}
 
-backend:
+backend-bash:
 	docker compose exec backend bash
 pip-ig:
 	docker compose exec backend pip install -U pip
 pip-install:
 	docker compose exec backend pip install -r requirements.txt
+pip-install-%:
+	docker compose exec backend pip install ${@:pip-install-%=%}
 pip-uninstall-%:
 	docker compose exec backend pip uninstall ${@:pip-uninstall-%=%}
 pytest:
 	docker compose exec backend pytest tests/
 mypy:
 	docker compose exec backend mypy .
-# alembic-init-alembic:
-# 	docker compose exec backend pipenv run alembic init alembic
-# alembic-init-migration:
-# 	docker compose exec backend pipenv run alembic init migration
-# alembic-revision-%:
-# 	docker compose exec backend pipenv run alembic revision --autogenerate -m "${@:alembic-revision-%=%}"
-# alembic-upgrade:
-# 	docker compose exec backend pipenv run alembic upgrade head
-# pipenv-upgrade:
-# 	docker compose exec backend pipenv run upgrade
 rm-migrations:
 	rm -rf apps/backend/alembic/versions/*
 	docker compose exec backend rm -rf alembic/versions/*
@@ -77,13 +69,14 @@ upgrade-head:
 seed:
 	docker compose exec backend python3 alembic/seed.py
 init-db:
+	@make db-reset
 	@make rm-migrations
 	@make init-migrations
 	@make upgrade-head
 	@make seed
 
-frontend:
-	docker compose exec frontend sh
+frontend-bash:
+	docker compose exec frontend bash
 npm-ig:
 	docker compose exec frontend npm i -g npm
 npm-install:
@@ -119,9 +112,13 @@ npm-test-watch:
 # npm-update:
 # 	docker compose exec frontend npx -p npm-check-updates -c "ncu -u"
 
-postgres:
+db-bash:
 	docker compose exec db bash
 # sql:
 # 	docker compose exec db bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
 # redis:
 # 	docker compose exec redis redis-cli
+db-reset:
+	@make down-v
+	@make upd
+
