@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import { Container, Paper, Box, Stack, InputLabel, Button } from '@mui/material';
 
-import { login } from '@/handlers/loginHandler';
+import { login } from '@/controllers/loginController';
 import { RHFTextField } from '@/parts/TextField';
 
 const LoginPage = () => {

@@ -3,7 +3,7 @@
 #
 from passlib.context import CryptContext
 
-pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class Hash:
     #
@@ -11,7 +11,8 @@ class Hash:
     #
     # @param password ハッシュ化するパスワード
     # @return ハッシュ化されたパスワード
-    def get_password_hash(self, password: str) -> str:
+    @staticmethod
+    def get_password_hash(password: str) -> str:
         return pwd_context.hash(password)
 
     #
@@ -20,5 +21,6 @@ class Hash:
     # @param plain_password 検証するパスワード
     # @param hashed_password ハッシュ化されたパスワード
     # @return 検証結果
-    def verify_password(self, plain_password: str, hashed_password: str) -> bool:
+    @staticmethod
+    def verify_password(plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)

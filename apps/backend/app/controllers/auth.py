@@ -1,4 +1,4 @@
-import logging
+# import logging
 import redis
 import jwt
 from fastapi import APIRouter, Depends, HTTPException, Response
@@ -11,8 +11,8 @@ from app.config.hash import Hash
 from app.config.settings import settings
 from app.models.user import User as UserModel
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# logging.basicConfig(level=logging.INFO)
+# logger = logging.getLogger(__name__)
 
 app = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -63,11 +63,11 @@ def verify_token(token: str):
 
 @app.post("/token", response_model=Token)
 async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    logger.info(f"Login attempt for user: {form_data.username}")  # ログ出力
+    # logger.info(f"Login attempt for user: {form_data.username}")  # ログ出力
     user_dict = db.query(UserModel).filter(UserModel.username == form_data.username).first()
-    logger.info(f"user_dict: {user_dict}")  # ログ出力
-    if user_dict:
-        logger.info(f"Password: {form_data.password} {user_dict.password}")  # ログ出力
+    # logger.info(f"user_dict: {user_dict}")  # ログ出力
+    # if user_dict:
+    #     logger.info(f"Password: {form_data.password} {user_dict.password}")  # ログ出力
     if not user_dict or not Hash().verify_password(form_data.password, user_dict.password):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
 
