@@ -1,26 +1,27 @@
-#
-# パスワードのハッシュ化と検証
-#
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class Hash:
-    #
-    # パスワードのハッシュ化
-    #
-    # @param password ハッシュ化するパスワード
-    # @return ハッシュ化されたパスワード
+    '''
+    パスワードのハッシュ化と検証
+    '''
+
     @staticmethod
     def get_password_hash(password: str) -> str:
+        '''
+        パスワードのハッシュ化
+        :param password: str: ハッシュ化するパスワード
+        :return: str: ハッシュ化されたパスワード
+        '''
         return pwd_context.hash(password)
 
-    #
-    # パスワードの検証
-    #
-    # @param plain_password 検証するパスワード
-    # @param hashed_password ハッシュ化されたパスワード
-    # @return 検証結果
     @staticmethod
     def verify_password(plain_password: str, hashed_password: str) -> bool:
+        '''
+        パスワードの検証
+        :param plain_password: str: 検証するパスワード
+        :param hashed_password: str: ハッシュ化されたパスワード
+        :return: bool: 検証結果
+        '''
         return pwd_context.verify(plain_password, hashed_password)
