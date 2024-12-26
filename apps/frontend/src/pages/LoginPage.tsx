@@ -1,12 +1,17 @@
+import { JSX } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Container, Paper, Box, Stack, InputLabel, Button } from '@mui/material';
+import { Container, Paper, Stack, Button } from '@mui/material';
 
 import { login } from '@/controllers/authController';
 import { RHFTextField } from '@/parts/TextField';
 
-const LoginPage = () => {
-  const { control, handleSubmit, getValues } = useForm({
+/**
+ * ログインページ
+ * @returns {JSX.Element} JSX.Element
+ */
+const LoginPage = (): JSX.Element => {
+  const { control, handleSubmit } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
@@ -15,11 +20,13 @@ const LoginPage = () => {
     },
   });
 
-  const handleLoginClick = async (data: { username: string; password: string }) => {
+  /**
+   * ログインボタンクリックイベントハンドラ
+   * @param user ユーザー情報
+   */
+  const handleLoginClick = async (user: { username: string; password: string }) => {
     try {
-      const response = await login(data);
-      console.log('Login successful:', response);
-      // トークンを保存するなどの処理を追加
+      await login(user);
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -27,9 +34,7 @@ const LoginPage = () => {
 
   return (
     <Container maxWidth="sm" sx={{ pt: 10 }}>
-      {/* <h1>Login</h1> */}
       <Paper sx={{ overflow: 'visible' }} elevation={3}>
-        {/* センタリング */}
         <Stack sx={{ width: '90%', margin: '0 auto', py: 4 }} spacing={2}>
           {/* <InputLabel htmlFor="username">ユーザー名</InputLabel> */}
           <RHFTextField

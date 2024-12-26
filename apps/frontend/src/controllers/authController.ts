@@ -16,7 +16,6 @@ interface LoginRequest {
  */
 export const login = async (request: LoginRequest): Promise<void> => {
   try {
-    // console.log('リクエスト：', request);
     const response = await axios.post<LoginResponse>(
       '/auth/token',
       {
@@ -29,12 +28,10 @@ export const login = async (request: LoginRequest): Promise<void> => {
       }
     );
 
+    console.log('Login successful:', response);
     sessionStorage.setItem('accessToken', response.data.accessToken);
-
-    // console.log('レスポンス：', response);
   } catch (error) {
     console.error('ログインに失敗しました', error);
-    // throw new Error('ログインに失敗しました');
   }
 };
 
@@ -56,7 +53,6 @@ export const logout = async (): Promise<void> => {
     sessionStorage.removeItem('accessToken');
   } catch (error) {
     console.error('ログアウトに失敗しました', error);
-    // throw new Error('ログアウトに失敗しました');
   }
 };
 
