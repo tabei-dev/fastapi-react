@@ -9,7 +9,8 @@ from datetime import datetime, timedelta, timezone
 from app.config.database import get_db
 from app.config.settings import settings
 from app.models.user import User
-from app.utils.hash import Hash
+from app.utils.datetime import DateTimeUtil
+from app.utils.hash import HashUtil
 
 # logging.basicConfig(level=logging.INFO)
 # logger = logging.getLogger(__name__)
@@ -42,9 +43,9 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     '''
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
+        expire = DateTimeUtil.now() + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+        expire = DateTimeUtil.now() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -81,7 +82,7 @@ def authenticate_user(db: Session, username: str, password: str) -> User:
     :return: User: ユーザー
     '''
     user = db.query(User).filter(User.username == username).first()
-    if not user or not Hash().verify_password(password, user.password):
+    if not user or not HashUtil().verify_password(password, user.password):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
     return user
 

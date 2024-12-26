@@ -2,9 +2,9 @@ from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-class Hash:
+class HashUtil:
     '''
-    パスワードのハッシュ化と検証
+    ハッシュユーティリティ
     '''
 
     @staticmethod

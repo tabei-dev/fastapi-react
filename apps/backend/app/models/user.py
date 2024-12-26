@@ -3,11 +3,8 @@ from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import Mapped
 from sqlalchemy_utils import UUIDType
-from typing import Optional
 from uuid import uuid4
-from zoneinfo import ZoneInfo
-
-JST = ZoneInfo("Asia/Tokyo")
+from app.utils.datetime import DateTimeUtil
 
 class User(ModelBase):
     __tablename__ = "users"
@@ -16,7 +13,6 @@ class User(ModelBase):
     email: Mapped[str] = Column(String(256), nullable=False)
     password: Mapped[str] = Column(String(256), nullable=False)
     from_date: Mapped[datetime] = Column(DateTime, nullable=False)
-    # to_date: Mapped[Optional[datetime]] = Column(DateTime, nullable=True, default=None)
     to_date: Mapped[datetime] = Column(DateTime, nullable=True, default=None)
-    created_at: Mapped[datetime] = Column(DateTime, default=lambda: datetime.now(JST))
-    updated_at: Mapped[datetime] = Column(DateTime, default=lambda: datetime.now(JST), onupdate=lambda: datetime.now(JST))
+    created_at: Mapped[datetime] = Column(DateTime, default=lambda: DateTimeUtil.now())
+    updated_at: Mapped[datetime] = Column(DateTime, default=lambda: DateTimeUtil.now(), onupdate=lambda: DateTimeUtil.now())

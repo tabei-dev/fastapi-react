@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 from app.main import app
 from app.models.user import User as UserModel
 from app.config.database import get_db
-from app.utils.hash import Hash
+from app.utils.hash import HashUtil
 
 @pytest.fixture(scope="module")
 def client():
@@ -21,7 +21,7 @@ def mock_db():
 @pytest.fixture
 def setup_mock_db(mock_db):
     # モックデータベースのセットアップ
-    user = UserModel(username="testuser", password=Hash().get_password_hash("testpassword"))
+    user = UserModel(username="testuser", password=HashUtil().get_password_hash("testpassword"))
     mock_db.query.return_value.filter.return_value.first.return_value = user
     yield
 

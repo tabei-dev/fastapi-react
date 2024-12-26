@@ -1,19 +1,19 @@
 import pytest
-from app.utils.hash import Hash
+from app.utils.hash import HashUtil
 
 def test_get_password_hash():
     password = "mysecretpassword"
-    hashed_password = Hash.get_password_hash(password)
+    hashed_password = HashUtil.get_password_hash(password)
 
     assert hashed_password != password
-    assert Hash.verify_password(password, hashed_password)
+    assert HashUtil.verify_password(password, hashed_password)
 
 def test_verify_password():
     password = "mysecretpassword"
-    hashed_password = Hash.get_password_hash(password)
+    hashed_password = HashUtil.get_password_hash(password)
 
-    assert Hash.verify_password(password, hashed_password)
-    assert not Hash.verify_password("wrongpassword", hashed_password)
+    assert HashUtil.verify_password(password, hashed_password)
+    assert not HashUtil.verify_password("wrongpassword", hashed_password)
 
 if __name__ == "__main__":
     pytest.main()
