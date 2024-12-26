@@ -87,8 +87,44 @@ def verify_token(token: str) -> dict:
 
     return token_data
 
+def authenticate_user(db: Session, username: str, password: str) -> UserModel:
+    '''
+    ユーザーを認証する
+    :param db: Session: DBセッション
+    :param username: str: ユーザー名
+    :param password: str: パスワード
+    :return: UserModel: ユーザー
+    '''
+    user_dict = db.query(UserModel).filter(UserModel.username == username).first()
+    if not user_dict or not Hash().verify_password(password, user_dict.password):
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+    return user_dict
+
+def create_user_token(username: str) -> str:
+    '''
+    ユーザーのトークンを生成する
+    :param username: str: ユーザー名
+    :return: str: トークン
+    '''
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    return create_access_token(data={"sub": username}, expires_delta=access_token_expires)
+
+def set_access_token_cookie(response: Response, access_token: str) -> None:
+    '''
+    トークンをCookieにセットする
+    :param response: Response: レスポンス
+    :param access_token: str: トークン
+    '''
+    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
+
+'''▼▽▼ エンドポイント ▼▽▼'''
+
 @app.post("/token", response_model=Token)
-async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)) -> dict:
+async def login(
+    response: Response,
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+) -> dict:
     '''
     ログイン
     :param response: Response: レスポンス
@@ -96,21 +132,9 @@ async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depen
     :param db: Session: DBセッション
     :return: dict: トークン
     '''
-    # logger.info(f"Login attempt for user: {form_data.username}")  # ログ出力
-    user_dict = db.query(UserModel).filter(UserModel.username == form_data.username).first()
-    # logger.info(f"user_dict: {user_dict}")  # ログ出力
-    # if user_dict:
-    #     logger.info(f"Password: {form_data.password} {user_dict.password}")  # ログ出力
-    if not user_dict or not Hash().verify_password(form_data.password, user_dict.password):
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": form_data.username}, expires_delta=access_token_expires
-    )
-    # HTTPOnly属性を付与してCookieに保存
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
-
+    user_dict = authenticate_user(db, form_data.username, form_data.password)
+    access_token = create_user_token(user_dict.username)
+    set_access_token_cookie(response, access_token)
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users/me")
