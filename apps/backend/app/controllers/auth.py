@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timedelta, timezone
 from app.config.database import get_db
 from app.config.settings import settings
-from app.models.user import User as UserModel
+from app.models.user import User
 from app.utils.hash import Hash
 
 # logging.basicConfig(level=logging.INFO)
@@ -32,22 +32,6 @@ class Token(BaseModel):
     '''
     access_token: str
     token_type: str
-
-class TokenData(BaseModel):
-    '''
-    トークンのペイロード
-    :param username: str | None: ユーザー名
-    '''
-    username: str | None = None
-
-class User(BaseModel):
-    '''
-    ユーザーのモデル
-    :param username: str: ユーザー名
-    :param password: str: パスワード
-    '''
-    username: str
-    password: str
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     '''
@@ -88,18 +72,18 @@ def verify_token(token: str) -> dict:
 
     return token_data
 
-def authenticate_user(db: Session, username: str, password: str) -> UserModel:
+def authenticate_user(db: Session, username: str, password: str) -> User:
     '''
     ユーザーを認証する
     :param db: Session: DBセッション
     :param username: str: ユーザー名
     :param password: str: パスワード
-    :return: UserModel: ユーザー
+    :return: User: ユーザー
     '''
-    user_dict = db.query(UserModel).filter(UserModel.username == username).first()
-    if not user_dict or not Hash().verify_password(password, user_dict.password):
+    user = db.query(User).filter(User.username == username).first()
+    if not user or not Hash().verify_password(password, user.password):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
-    return user_dict
+    return user
 
 def create_user_token(username: str) -> str:
     '''
@@ -133,8 +117,8 @@ async def login(
     :param db: Session: DBセッション
     :return: dict: トークン
     '''
-    user_dict = authenticate_user(db, form_data.username, form_data.password)
-    access_token = create_user_token(user_dict.username)
+    user = authenticate_user(db, form_data.username, form_data.password)
+    access_token = create_user_token(user.username)
     set_access_token_cookie(response, access_token)
     return {"access_token": access_token, "token_type": "bearer"}
 
