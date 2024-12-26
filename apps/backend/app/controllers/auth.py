@@ -7,9 +7,9 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta, timezone
 from app.config.database import get_db
-from app.config.hash import Hash
 from app.config.settings import settings
 from app.models.user import User as UserModel
+from app.utils.hash import Hash
 
 # logging.basicConfig(level=logging.INFO)
 # logger = logging.getLogger(__name__)
@@ -77,7 +77,8 @@ def verify_token(token: str) -> dict:
         username: str = payload.get("sub")
         if username is None:
             raise HTTPException(status_code=401, detail="Invalid token")
-        token_data = TokenData(username=username)
+        # token_data = TokenData(username=username)
+        token_data = {"username": username}
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
@@ -142,10 +143,10 @@ async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict:
     '''
     ユーザー情報取得
     :param token: str: トークン
-    :return: TokenData: ユーザー情報
+    :return: dict: ユーザー情報
     '''
     token_data = verify_token(token)
-    return {"username": token_data.username}
+    return {"username": token_data["username"]}
 
 @app.post("/logout")
 async def logout(token: str = Depends(oauth2_scheme)) -> dict:

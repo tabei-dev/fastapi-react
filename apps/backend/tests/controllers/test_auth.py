@@ -3,8 +3,8 @@ from fastapi.testclient import TestClient
 from unittest.mock import MagicMock, patch
 from app.main import app
 from app.models.user import User as UserModel
-from app.config.hash import Hash
 from app.config.database import get_db
+from app.utils.hash import Hash
 
 @pytest.fixture(scope="module")
 def client():

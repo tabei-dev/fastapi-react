@@ -6,8 +6,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from datetime import datetime
 from app.config.database import SessionLocal
-from app.config.hash import Hash
 from app.models.user import User
+from app.utils.hash import Hash
 
 def seed():
     db = SessionLocal()
