@@ -1,5 +1,5 @@
 from .model_base import ModelBase
-from datetime import datetime, timezone
+from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import Mapped
 from sqlalchemy_utils import UUIDType
@@ -16,6 +16,7 @@ class User(ModelBase):
     email: Mapped[str] = Column(String(256), nullable=False)
     password: Mapped[str] = Column(String(256), nullable=False)
     from_date: Mapped[datetime] = Column(DateTime, nullable=False)
-    to_date: Mapped[Optional[datetime]] = Column(DateTime, nullable=True, default=None)
+    # to_date: Mapped[Optional[datetime]] = Column(DateTime, nullable=True, default=None)
+    to_date: Mapped[datetime] = Column(DateTime, nullable=True, default=None)
     created_at: Mapped[datetime] = Column(DateTime, default=lambda: datetime.now(JST))
     updated_at: Mapped[datetime] = Column(DateTime, default=lambda: datetime.now(JST), onupdate=lambda: datetime.now(JST))

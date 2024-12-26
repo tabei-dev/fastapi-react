@@ -1,20 +1,21 @@
-#
-# データベース接続
-#
-# import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from app.config.settings import settings
 
-# logging.basicConfig(level=logging.INFO)
-# logger = logging.getLogger(__name__)
-
-# logger.info(f"database_url: {settings.database_url}")  # ログ出力
-
 engine = create_engine(settings.database_url)
+'''
+データベースのエンジン
+'''
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+'''
+データベースのセッション
+'''
 
-def get_db() -> Session:
+def get_db() -> Session: # type: ignore
+    '''
+    データベースのセッションを取得
+    :return: Session: データベースのセッション
+    '''
     db = SessionLocal()
     try:
         yield db

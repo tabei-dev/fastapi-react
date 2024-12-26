@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from app.config.database import get_db
 from app.config.hash import Hash
 from app.config.settings import settings
@@ -18,11 +18,11 @@ app = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Redisに接続
-redis = Redis.Redis(host='redis', port=6379, db=0)
+redis = Redis.Redis(host='redis', port=settings.redis_port, db=0)
 
 SECRET_KEY = settings.secret_key
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = int(settings.access_token_expire_minutes)
 
 class Token(BaseModel):
     '''
@@ -58,15 +58,20 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     '''
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
     return encoded_jwt
 
-def verify_token(token: str) -> TokenData:
+def verify_token(token: str) -> dict:
+    '''
+    トークンを検証する
+    :param token: str: トークン
+    :return: dict: ペイロード
+    '''
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -83,13 +88,13 @@ def verify_token(token: str) -> TokenData:
     return token_data
 
 @app.post("/token", response_model=Token)
-async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)) -> Token:
+async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)) -> dict:
     '''
     ログイン
     :param response: Response: レスポンス
     :param form_data: OAuth2PasswordRequestForm: フォームデータ
     :param db: Session: DBセッション
-    :return: Token: トークン
+    :return: dict: トークン
     '''
     # logger.info(f"Login attempt for user: {form_data.username}")  # ログ出力
     user_dict = db.query(UserModel).filter(UserModel.username == form_data.username).first()
@@ -109,7 +114,7 @@ async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depen
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users/me")
-async def read_users_me(token: str = Depends(oauth2_scheme)) -> TokenData:
+async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict:
     '''
     ユーザー情報取得
     :param token: str: トークン
