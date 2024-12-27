@@ -12,6 +12,7 @@ sqlalchemy
 sqlalchemy_utils
 alembic
 passlib[argon2]
+bcrypt
 uuid
 redis
 pyjwt
