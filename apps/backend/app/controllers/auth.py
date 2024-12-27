@@ -51,7 +51,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 
     return encoded_jwt
 
-def verify_token(token: str) -> dict:
+def verify_token(token: str) -> dict[str, str]:
     '''
     トークンを検証する
     :param token: str: トークン
@@ -107,10 +107,10 @@ def set_access_token_cookie(response: Response, access_token: str) -> None:
 
 @app.post("/token", response_model=Token)
 async def login(
-    response: Response,
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    db: Session = Depends(get_db)
-) -> dict:
+        response: Response,
+        form_data: OAuth2PasswordRequestForm = Depends(),
+        db: Session = Depends(get_db)
+    ) -> dict[str, str]:
     '''
     ログイン
     :param response: Response: レスポンス
@@ -124,7 +124,7 @@ async def login(
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users/me")
-async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict:
+async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
     '''
     ユーザー情報取得
     :param token: str: トークン
@@ -134,7 +134,7 @@ async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict:
     return {"username": token_data["username"]}
 
 @app.post("/logout")
-async def logout(token: str = Depends(oauth2_scheme)) -> dict:
+async def logout(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
     '''
     ログアウト
     :param token: str: トークン
