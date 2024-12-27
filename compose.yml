@@ -18,7 +18,7 @@ services:
       POSTGRES_PASSWORD: sa0000
       TZ: "Asia/Tokyo"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
     networks:
@@ -41,6 +41,7 @@ services:
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+      - LANG=jp_JP.UTF-8
     depends_on:
       - db
     networks:

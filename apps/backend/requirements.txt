@@ -11,8 +11,7 @@ psycopg2-binary
 sqlalchemy
 sqlalchemy_utils
 alembic
-passlib[argon2]
-bcrypt
+argon2-cffi
 uuid
 redis
 pyjwt

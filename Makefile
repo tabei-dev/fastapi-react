@@ -74,6 +74,10 @@ init-db:
 	@make init-migrations
 	@make upgrade-head
 	@make seed
+init-venv:
+	sudo rm -rf venv
+	python3 -m venv venv
+	source venv/bin/activate
 
 frontend-bash:
 	docker compose exec frontend bash

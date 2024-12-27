@@ -13,6 +13,6 @@ def test_settings_env_allow_origins(monkeypatch):
     assert settings.allow_origins == "http://localhost:3000"
 
 def test_settings_env_database_url(monkeypatch):
-    monkeypatch.setenv("DATABASE_URL", "postgresql://sa:sa0000@localhost:5432/fastapi_db")
+    monkeypatch.setenv("DATABASE_URL", "postgresql://sa:sa0000@localhost:5433/fastapi_db")
     settings = Settings()
-    assert settings.database_url == "postgresql://sa:sa0000@localhost:5432/fastapi_db"
+    assert settings.database_url == "postgresql://sa:sa0000@localhost:5433/fastapi_db"
