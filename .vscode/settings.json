@@ -1,9 +1,12 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "python.defaultInterpreterPath": "/usr/local/lib/python3.10",
+  "python.defaultInterpreterPath": "/usr/bin/python3.12",
   "python.autoComplete.extraPaths": [
-    "/usr/local/lib/python3.10/site-packages"
+    "/usr/bin/python3.12/site-packages"
+  ],
+  "python.analysis.extraPaths": [
+    "./venv/lib/python3.12/site-packages"
   ],
   "[python]": {
     "editor.tabSize": 4
