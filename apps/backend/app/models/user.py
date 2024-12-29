@@ -1,12 +1,14 @@
-from .model_base import ModelBase
+# from .model_base import ModelBase
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
-from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import declarative_base, Mapped
 from sqlalchemy_utils import UUIDType
 from uuid import uuid4
 from app.utils.datetime import DateTimeUtil
 
-class User(ModelBase):
+BaseModel = declarative_base()
+
+class User(BaseModel):
     __tablename__ = "users"
     uuid: Mapped[str] = Column(UUIDType(binary=False), primary_key=True, default=uuid4)
     username: Mapped[str] = Column(String(60), nullable=False)

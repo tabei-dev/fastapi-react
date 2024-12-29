@@ -12,9 +12,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # データベースのセッション
 # '''
 # Base = declarative_base()
-'''
-データベースのベースクラス
-'''
 
 # async def init_db() -> None:
 #     '''

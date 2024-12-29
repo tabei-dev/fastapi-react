@@ -1,0 +1,20 @@
+{
+  "classifications": [
+    {
+      "classification_name": "Role",
+      "classification_jp_name": "権限",
+      "details": [
+        {
+          "detail_number": 1,
+          "detail_name": "Administrator",
+          "detail_jp_name": "管理者"
+        },
+        {
+          "detail_number": 2,
+          "detail_name": "General",
+          "detail_jp_name": "一般"
+        }
+      ]
+    }
+  ]
+}

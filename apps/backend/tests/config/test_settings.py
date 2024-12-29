@@ -1,18 +1,48 @@
 import os
-from app.config.settings import Settings
-# from pydantic import BaseSettings
+import json
+import unittest
+from app.config.settings import settings
+from app.models.message import Message, MessageManager
+from app.models.classification import Classification, ClassificationManager, ClassificationEnum
 
-def test_settings_env_environment(monkeypatch):
-    monkeypatch.setenv("ENVIRONMENT", "development")
-    settings = Settings()
-    assert settings.environment == "development"
+class TestSettings(unittest.TestCase):
+    def test_environment(self):
+        self.assertEqual(settings.environment, os.getenv("ENVIRONMENT", "development"))
 
-def test_settings_env_allow_origins(monkeypatch):
-    monkeypatch.setenv("ALLOW_ORIGINS", "http://localhost:3000")
-    settings = Settings()
-    assert settings.allow_origins == "http://localhost:3000"
+    def test_allow_origins(self):
+        self.assertEqual(settings.allow_origins, os.getenv("ALLOW_ORIGINS", "http://example.com"))
 
-def test_settings_env_database_url(monkeypatch):
-    monkeypatch.setenv("DATABASE_URL", "postgresql://sa:sa0000@localhost:5433/fastapi_db")
-    settings = Settings()
-    assert settings.database_url == "postgresql://sa:sa0000@localhost:5433/fastapi_db"
+    def test_database_url(self):
+        self.assertEqual(settings.database_url, os.getenv("DATABASE_URL", "sqlite:///./test.db"))
+
+    def test_redis_port(self):
+        self.assertEqual(settings.redis_port, int(os.getenv("REDIS_PORT", 6379)))
+
+    def test_secret_key(self):
+        self.assertEqual(settings.secret_key, os.getenv("SECRET_KEY", "secret"))
+
+    def test_access_token_expire_minutes(self):
+        self.assertEqual(settings.access_token_expire_minutes, int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30)))
+
+    def test_messages(self):
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        messages_path = os.path.join(base_dir, 'assets', 'messages.json')
+        with open(messages_path, 'r', encoding='utf-8') as file:
+            expected_messages = json.load(file)
+            expected_messages = [Message(**message) for message in expected_messages['messages']]
+            expected_message_manager = MessageManager(expected_messages)
+        print("settings.messages: ", settings.message_manager, "\n")
+        self.assertEqual(settings.message_manager.get_message(1), expected_message_manager.get_message(1))
+
+    def test_classifications(self):
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        classifications_path = os.path.join(base_dir, 'assets', 'classifications.json')
+        with open(classifications_path, 'r', encoding='utf-8') as file:
+            expected_classifications = json.load(file)
+            expected_classifications = [Classification(**classification) for classification in expected_classifications['classifications']]
+            expected_classification_manager = ClassificationManager(expected_classifications)
+        print("settings.classification_manager: ", settings.classification_manager.get_classifications(ClassificationEnum.ROLE), "\n")
+        self.assertEqual(settings.classification_manager.get_classifications(ClassificationEnum.ROLE), expected_classification_manager.get_classifications(ClassificationEnum.ROLE))
+
+if __name__ == '__main__':
+    unittest.main()

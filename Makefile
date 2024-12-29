@@ -56,7 +56,7 @@ pip-install-%:
 pip-uninstall-%:
 	docker compose exec backend pip uninstall ${@:pip-uninstall-%=%}
 pytest:
-	docker compose exec backend pytest tests/
+	docker compose exec backend pytest -s tests/
 mypy:
 	docker compose exec backend mypy .
 rm-migrations:
