@@ -70,6 +70,7 @@ seed:
 	docker compose exec backend python3 alembic/seed.py
 init-db:
 	@make db-reset
+#	docker compose exec backend python3 alembic/init_db.py
 	@make rm-migrations
 	@make init-migrations
 	@make upgrade-head

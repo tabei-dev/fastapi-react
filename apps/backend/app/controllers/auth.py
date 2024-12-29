@@ -110,7 +110,7 @@ async def login(
         response: Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_db)
-    ) -> dict[str, str]:
+    ):
     '''
     ログイン
     :param response: Response: レスポンス
