@@ -4,9 +4,8 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import declarative_base, Mapped
 from sqlalchemy_utils import UUIDType
 from uuid import uuid4
+from app.models.base_model import BaseModel
 from app.utils.datetime import DateTimeUtil
-
-BaseModel = declarative_base()
 
 class User(BaseModel):
     __tablename__ = "users"

@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from app.config.settings import settings
-from app.models.model_base import ModelBase
+from app.models.base_model import BaseModel
 
 from app.models.user import User
 
@@ -24,7 +24,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
-target_metadata = ModelBase.metadata
+target_metadata = BaseModel.metadata
 
 config.set_section_option("alembic", "DB_URL", settings.database_url)
 

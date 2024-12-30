@@ -69,8 +69,8 @@ upgrade-head:
 seed:
 	docker compose exec backend python3 alembic/seed.py
 init-db:
+	mkdir -p apps/backend/alembic/versions
 	@make db-reset
-#	docker compose exec backend python3 alembic/init_db.py
 	@make rm-migrations
 	@make init-migrations
 	@make upgrade-head
