@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from app.config.database import connect_db, close_db
 from app.config.settings import settings
-from app.controllers.auth import app as auth_app
+from app.routes.auth_router import router as auth_router
 
 app = FastAPI()
 
@@ -32,4 +32,4 @@ async def get_data():
     return {"data": "This is some data from FastAPI!!!"}
 
 # app.mount("/auth", auth_app)
-app.include_router(auth_app, prefix="/auth")
+app.include_router(auth_router, prefix="/auth")

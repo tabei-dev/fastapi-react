@@ -15,7 +15,7 @@ from app.utils.hash import HashUtil
 # logging.basicConfig(level=logging.INFO)
 # logger = logging.getLogger(__name__)
 
-app = APIRouter()
+router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Redisに接続
@@ -105,7 +105,7 @@ def set_access_token_cookie(response: Response, access_token: str) -> None:
 
 '''▼▽▼ エンドポイント ▼▽▼'''
 
-@app.post("/token", response_model=Token)
+@router.post("/token", response_model=Token)
 async def login(
         response: Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
@@ -123,7 +123,7 @@ async def login(
     set_access_token_cookie(response, access_token)
     return {"access_token": access_token, "token_type": "bearer"}
 
-@app.get("/users/me")
+@router.get("/users/me")
 async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
     '''
     ユーザー情報取得
@@ -133,7 +133,7 @@ async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
     token_data = verify_token(token)
     return {"username": token_data["username"]}
 
-@app.post("/logout")
+@router.post("/logout")
 async def logout(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
     '''
     ログアウト
