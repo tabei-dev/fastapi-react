@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from app.config.database import connect_db, close_db
 from app.config.settings import settings
-from app.routes.auth_router import router as auth_router
+from app.controllers.auth_controller import router as auth_router
 
 app = FastAPI()
 
