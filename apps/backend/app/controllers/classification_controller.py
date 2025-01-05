@@ -42,27 +42,44 @@ class ClassificationController(metaclass=SingletonMeta):
 
     def get_roles(self) -> list[ClassificationDetail]:
         '''
-        権限区分一覧を取得する
-        :return: list[ClassificationDetail]: 権限区分一覧
+        権限区分情報一覧を取得する
+        :return: list[ClassificationDetail]: 権限区分情報一覧
         '''
-        for classification in self.classifications:
-            if classification.classification_name == self.__ClassificationEnum.ROLE.value:
-                return classification.details
-
-        raise ValueError(f"権限区分一覧が見つかりませんでした")
+        return self.__get_classification_details(self.__ClassificationEnum.ROLE)
     
     def get_role(self, detail_number: int) -> ClassificationDetail:
         '''
-        指定の明細番号の権限区分を取得する
+        指定の明細番号の権限区分情報を取得する
         :param detail_number: int: 明細番号
-        :return: ClassificationDetail: 権限区分
+        :return: ClassificationDetail: 権限区分情報
         '''
-        classification_details = self.get_roles()
+        return self.__get_classification_detail(self.__ClassificationEnum.ROLE, detail_number)
+    
+    def __get_classification_details(self, classification_enum: Enum) -> list[ClassificationDetail]:
+        '''
+        指定の区分列挙型の区分明細情報一覧を取得する
+        :param classification_enum: Enum: 区分列挙型
+        :return: list[ClassificationDetail]: 区分明細情報一覧
+        '''
+        for classification in self.classifications:
+            if classification.classification_name == classification_enum.value:
+                return classification.details
+
+        raise ValueError(f"{classification_enum.value}の区分明細情報一覧が見つかりませんでした")
+    
+    def __get_classification_detail(self, classification_enum: Enum, detail_number: int) -> ClassificationDetail:
+        '''
+        指定の区分列挙型と明細番号の区分明細情報を取得する
+        :param classification_enum: Enum: 区分列挙型
+        :param detail_number: int: 明細番号
+        :return: ClassificationDetail: 区分明細情報
+        '''
+        classification_details = self.__get_classification_details(classification_enum)
         for classification_detail in classification_details:
             if classification_detail.detail_number == detail_number:
                 return classification_detail
 
-        raise ValueError(f"権限区分({detail_number})が見つかりませんでした")
+        raise ValueError(f"{classification_enum.value}({detail_number})が見つかりませんでした")
 
 # インスタンスの取得
 classification_controller = ClassificationController()

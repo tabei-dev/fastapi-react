@@ -2,7 +2,8 @@ import os
 import json
 import pytest
 from io import StringIO
-from app.controllers.classification_controller import classification_controller
+from app.controllers.classification_controller import classification_controller, ClassificationController
+from app.models.classification import Classification, ClassificationDetail
 
 @pytest.fixture
 def mock_classifications(monkeypatch):
@@ -50,4 +51,4 @@ def test_get_role_not_found(mock_classifications):
     controller = classification_controller
     with pytest.raises(ValueError) as excinfo:
         controller.get_role(999)
-    assert str(excinfo.value) == "権限区分(999)が見つかりませんでした"
+    assert str(excinfo.value) == "Role(999)が見つかりませんでした"
