@@ -49,6 +49,8 @@ class MessageService(metaclass=SingletonMeta):
         :raise ValueError: メッセージが見つからない場合
         '''
         logger.debug(f"メッセージ一覧: {self.messages}")
+        if not self.messages:
+            self.__init__()
         for message in self.messages:
             if message.number == number:
                 return message.message

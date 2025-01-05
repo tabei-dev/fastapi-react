@@ -49,6 +49,8 @@ class ClassificationService(metaclass=SingletonMeta):
         :param classification_enum: Enum: 区分列挙型
         :return: list[ClassificationDetail]: 区分明細情報一覧
         '''
+        if not self.classifications:
+            self.__init__()
         for classification in self.classifications:
             if classification.classification_name == classification_enum.value:
                 return classification.details
