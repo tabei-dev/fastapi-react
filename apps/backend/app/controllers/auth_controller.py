@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 from app.config.database import get_db
 from app.config.settings import settings
+from app.models.token import Token
 from app.models.user import User
 from app.utils.datetime import DateTimeUtil
 from app.utils.hash import HashUtil
@@ -25,14 +26,14 @@ SECRET_KEY = settings.secret_key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = int(settings.access_token_expire_minutes)
 
-class Token(BaseModel):
-    '''
-    トークンのレスポンスモデル
-    :param access_token: str: トークン
-    :param token_type: str: トークンの種類
-    '''
-    access_token: str
-    token_type: str
+# class Token(BaseModel):
+#     '''
+#     トークンのレスポンスモデル
+#     :param access_token: str: トークン
+#     :param token_type: str: トークンの種類
+#     '''
+#     access_token: str
+#     token_type: str
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     '''

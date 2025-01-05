@@ -5,9 +5,9 @@ from app.config.settings import settings
 from app.models.classification import Classification, ClassificationDetail
 from app.utils.singlton import SingletonMeta
 
-class ClassificationController(metaclass=SingletonMeta):
+class ClassificationService(metaclass=SingletonMeta):
     '''
-    区分情報コントローラークラス
+    区分情報サービスクラス
     '''
 
     class __ClassificationEnum(Enum):
@@ -22,10 +22,10 @@ class ClassificationController(metaclass=SingletonMeta):
     def __new__(cls, *args, **kwargs):
         '''
         シングルトンインスタンスを生成する
-        :return: ClassificationController: 区分情報コントローラー
+        :return: ClassificationService: 区分情報サービス
         '''
         if cls._instance is None:
-            cls._instance = super(ClassificationController, cls).__new__(cls, *args, **kwargs)
+            cls._instance = super(ClassificationService, cls).__new__(cls, *args, **kwargs)
         return cls._instance
 
     def __init__(self):
@@ -81,5 +81,5 @@ class ClassificationController(metaclass=SingletonMeta):
         '''
         return self.__get_classification_detail(self.__ClassificationEnum.ROLE, detail_number)
     
-# インスタンスの取得
-classification_controller = ClassificationController()
+
+classification_service = ClassificationService()
