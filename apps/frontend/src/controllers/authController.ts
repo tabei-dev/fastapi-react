@@ -17,7 +17,7 @@ interface LoginRequest {
 export const login = async (request: LoginRequest): Promise<void> => {
   try {
     const response = await axios.post<LoginResponse>(
-      '/auth/token',
+      '/auth/login',
       {
         username: request.username,
         password: request.password,

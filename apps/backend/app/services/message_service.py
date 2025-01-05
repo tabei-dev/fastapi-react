@@ -3,6 +3,10 @@ import json
 from app.config.settings import settings
 from app.models.message import Message
 from app.utils.singlton import SingletonMeta
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class MessageService(metaclass=SingletonMeta):
     '''
@@ -12,9 +16,11 @@ class MessageService(metaclass=SingletonMeta):
 
     def __new__(cls, *args, **kwargs):
         '''
+        コンストラクタ
         シングルトンインスタンスを生成する
         :return: MessageService: メッセージ情報サービス
         '''
+        logger.debug(f"メッセージサービスのNEW")
         if cls._instance is None:
             cls._instance = super(MessageService, cls).__new__(cls, *args, **kwargs)
         return cls._instance
@@ -23,8 +29,12 @@ class MessageService(metaclass=SingletonMeta):
         '''
         コンストラクタ
         '''
-        if not hasattr(self, 'initialized'):  # 初期化が一度だけ行われるようにする
-            messages_json_path = os.path.join(settings.assets_path, 'messages.json')
+        logger.debug(f"メッセージサービスのコンストラクタ")
+        if not hasattr(self, 'initialized_massage_controller'):  # 初期化が一度だけ行われるようにする
+            current_file_dir = os.path.dirname(os.path.abspath(__file__))
+            assets_path = os.path.join(current_file_dir, '..', '..', 'assets')
+            messages_json_path = os.path.join(assets_path, 'messages.json')
+            logger.debug(f"メッセージJSONのパス: {messages_json_path}")
             if os.path.exists(messages_json_path):
                 with open(messages_json_path, 'r', encoding='utf-8') as file:
                     json_data = json.load(file)
@@ -38,6 +48,7 @@ class MessageService(metaclass=SingletonMeta):
         :return: str: メッセージ
         :raise ValueError: メッセージが見つからない場合
         '''
+        logger.debug(f"メッセージ一覧: {self.messages}")
         for message in self.messages:
             if message.number == number:
                 return message.message

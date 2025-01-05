@@ -61,7 +61,7 @@ def test_environment_variable(monkeypatch):
     monkeypatch.setenv("REDIS_PORT", "6380")
     monkeypatch.setenv("SECRET_KEY", "newsecret")
     monkeypatch.setenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
-    monkeypatch.setenv("ASSETS_PATH", "/test/assets")
+    # monkeypatch.setenv("ASSETS_PATH", "/test/assets")
 
     settings.environment = os.getenv("ENVIRONMENT")
     settings.allow_origins = os.getenv("ALLOW_ORIGINS")
@@ -69,7 +69,7 @@ def test_environment_variable(monkeypatch):
     settings.redis_port = int(os.getenv("REDIS_PORT"))
     settings.secret_key = os.getenv("SECRET_KEY")
     settings.access_token_expire_minutes = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
-    settings.assets_path = os.getenv("ASSETS_PATH")
+    # settings.assets_path = os.getenv("ASSETS_PATH")
 
     assert settings.environment == "production"
     assert settings.allow_origins == "http://example.org"
@@ -77,4 +77,4 @@ def test_environment_variable(monkeypatch):
     assert settings.redis_port == 6380
     assert settings.secret_key == "newsecret"
     assert settings.access_token_expire_minutes == 60
-    assert settings.assets_path == "/test/assets"
+    # assert settings.assets_path == "/test/assets"

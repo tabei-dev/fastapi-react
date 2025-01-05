@@ -21,6 +21,7 @@ class ClassificationService(metaclass=SingletonMeta):
 
     def __new__(cls, *args, **kwargs):
         '''
+        コンストラクタ
         シングルトンインスタンスを生成する
         :return: ClassificationService: 区分情報サービス
         '''
@@ -32,8 +33,10 @@ class ClassificationService(metaclass=SingletonMeta):
         '''
         コンストラクタ
         '''
-        if not hasattr(self, 'initialized'):  # 初期化が一度だけ行われるようにする
-            classifications_json_path = os.path.join(settings.assets_path, 'classifications.json')
+        if not hasattr(self, 'initialized_classification_controller'):  # 初期化が一度だけ行われるようにする
+            current_file_dir = os.path.dirname(os.path.abspath(__file__))
+            assets_path = os.path.join(current_file_dir, '..', '..', 'assets')
+            classifications_json_path = os.path.join(assets_path, 'classifications.json')
             if os.path.exists(classifications_json_path):
                 with open(classifications_json_path, 'r', encoding='utf-8') as file:
                     json_data = json.load(file)

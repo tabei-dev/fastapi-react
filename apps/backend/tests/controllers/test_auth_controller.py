@@ -26,13 +26,13 @@ def setup_mock_db(mock_db):
     yield
 
 def test_login(client, setup_mock_db):
-    response = client.post("/auth/token", data={"username": "testuser", "password": "testpassword"})
+    response = client.post("/auth/login", data={"username": "testuser", "password": "testpassword"})
     assert response.status_code == 200
     assert "access_token" in response.json()
     assert response.json()["token_type"] == "bearer"
 
 def test_read_users_me(client, setup_mock_db):
-    login_response = client.post("/auth/token", data={"username": "testuser", "password": "testpassword"})
+    login_response = client.post("/auth/login", data={"username": "testuser", "password": "testpassword"})
     token = login_response.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
     response = client.get("/auth/users/me", headers=headers)
@@ -40,7 +40,7 @@ def test_read_users_me(client, setup_mock_db):
     assert response.json() == {"username": "testuser"}
 
 def test_logout(client, setup_mock_db):
-    login_response = client.post("/auth/token", data={"username": "testuser", "password": "testpassword"})
+    login_response = client.post("/auth/login", data={"username": "testuser", "password": "testpassword"})
     token = login_response.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
     response = client.post("/auth/logout", headers=headers)

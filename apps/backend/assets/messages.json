@@ -1,7 +1,27 @@
 {
   "messages": [
     {
-      "number": 1,
+      "number": 4001,
+      "message": "ユーザーが見つかりません",
+      "type": "error"
+    },
+    {
+      "number": 4002,
+      "message": "パスワードが一致しません",
+      "type": "error"
+    },
+    {
+      "number": 4003,
+      "message": "無効なトークンです",
+      "type": "error"
+    },
+    {
+      "number": 4004,
+      "message": "使用済みのトークンです",
+      "type": "error"
+    },
+    {
+      "number": 4005,
       "message": "必須入力項目です",
       "type": "error"
     }
