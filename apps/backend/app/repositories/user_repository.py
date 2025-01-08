@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.models.user import User
-from app.services.message_service import message_service
+from app.services.message_service import get_message
 from app.utils.hash import HashUtil
 
 class UserRepository:
@@ -28,11 +28,11 @@ class UserRepository:
         '''
         user = self._db.query(User).filter(User.username == username).first()
         if not user:
-            raise ValueError(message_service.get_message(4001))
+            raise ValueError(get_message(4001))
 
         # if not user.check_password(password):
         if not user or not HashUtil().verify_password(password, user.password):
-            raise ValueError(message_service.get_message(4002))
+            raise ValueError(get_message(4002))
 
     # def get_user(self, username: str) -> User:
     #     '''

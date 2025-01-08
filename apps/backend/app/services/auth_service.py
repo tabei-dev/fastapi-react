@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 from app.config.settings import settings
 from app.repositories.user_repository import UserRepository
-from app.services.message_service import message_service
+from app.services.message_service import get_message
 from app.utils.datetime import DateTimeUtil
 
 class AuthService:
@@ -17,7 +17,7 @@ class AuthService:
     ALGORITHM = "HS256"
     '''アルゴリズム'''
     ACCESS_TOKEN_EXPIRE_MINUTES = int(settings.access_token_expire_minutes)
-    '''トークンの有効期限(分)''' 
+    '''トークンの有効期限(分)'''
 
     def __init__(self):
         '''
@@ -55,16 +55,16 @@ class AuthService:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
             username: str = payload.get("sub")
             if username is None:
-                raise ValueError(message_service.get_message(4003))
+                raise ValueError(get_message(4003))
         except jwt.PyJWTError:
-            raise ValueError(message_service.get_message(4003))
+            raise ValueError(get_message(4003))
 
         # トークンがブラックリストにあるか確認
         if self.redis.get(token):
-            raise ValueError(message_service.get_message(4004))
+            raise ValueError(get_message(4004))
 
         return username
-    
+
     def revoke_token(self, token: str) -> None:
         '''
         トークンをブラックリストに登録します
@@ -85,7 +85,7 @@ class AuthService:
 
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
-    
+
     def __create_expire(self) -> timedelta:
         '''
         有効期限を生成します

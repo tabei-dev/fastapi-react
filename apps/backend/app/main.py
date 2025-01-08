@@ -45,6 +45,7 @@ app.include_router(auth_router, prefix="/auth")
 
 @app.exception_handler(HTTPException)
 async def validation_exception_handler(exc: HTTPException):
+    logger.error(f"到達:HTTPException: {exc.detail}")
     return JSONResponse(
         status_code=422,
         content={"detail": exc.errors(), "body": exc.model}
