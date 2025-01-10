@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
+from app.errors.validation_error import ValidationError
 from app.models.user import User
-from app.services.message_service import get_message
+from app.repositories.message_repository import get_message
 from app.utils.hash import HashUtil
 
 class UserRepository:
@@ -14,7 +15,7 @@ class UserRepository:
         :param db: Session: DBセッション
         '''
         if not db:
-            raise ValueError('DBセッションが設定されていません')
+            raise Exception('DBセッションが設定されていません')
 
         self._db = db
 
@@ -28,11 +29,11 @@ class UserRepository:
         '''
         user = self._db.query(User).filter(User.username == username).first()
         if not user:
-            raise ValueError(get_message(4001))
+            raise ValidationError(get_message(4001), 'username')
 
         # if not user.check_password(password):
         if not user or not HashUtil().verify_password(password, user.password):
-            raise ValueError(get_message(4002))
+            raise ValidationError(get_message(4002), 'password')
 
     # def get_user(self, username: str) -> User:
     #     '''

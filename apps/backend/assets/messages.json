@@ -12,16 +12,11 @@
     },
     {
       "number": 4003,
-      "message": "無効なトークンです",
+      "message": "認証に失敗しました",
       "type": "error"
     },
     {
       "number": 4004,
-      "message": "使用済みのトークンです",
-      "type": "error"
-    },
-    {
-      "number": 4005,
       "message": "必須入力項目です",
       "type": "error"
     }

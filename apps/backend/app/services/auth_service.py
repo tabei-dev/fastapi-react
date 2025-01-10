@@ -3,8 +3,9 @@ import jwt
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from app.config.settings import settings
+from app.errors.validation_error import ValidationError
+from app.repositories.message_repository import get_message
 from app.repositories.user_repository import UserRepository
-from app.services.message_service import get_message
 from app.utils.datetime import DateTimeUtil
 
 class AuthService:
@@ -55,13 +56,13 @@ class AuthService:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
             username: str = payload.get("sub")
             if username is None:
-                raise ValueError(get_message(4003))
+                raise ValidationError(get_message(4003), 'username')
         except jwt.PyJWTError:
-            raise ValueError(get_message(4003))
+            raise ValidationError(get_message(4003), 'username')
 
         # トークンがブラックリストにあるか確認
         if self.redis.get(token):
-            raise ValueError(get_message(4004))
+            raise ValidationError(get_message(4003), 'username')
 
         return username
 

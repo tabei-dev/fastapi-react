@@ -1,8 +1,10 @@
-import axios from '@/config/axios';
+import axios, { isAxiosError } from '@/config/axios';
 
 interface LoginResponse {
   accessToken: string;
   tokenType: string;
+  message: string;
+  fieldname: string;
 }
 
 interface LoginRequest {
@@ -28,10 +30,13 @@ export const login = async (request: LoginRequest): Promise<void> => {
       }
     );
 
-    console.log('Login successful:', response);
+    console.log('ログインに成功しました:', response);
     sessionStorage.setItem('accessToken', response.data.accessToken);
   } catch (error) {
-    console.error('ログインに失敗しました', error);
+    if (isAxiosError(error)) {
+      const { response } = error;
+      console.error('ログインに失敗しました', response);
+    }
   }
 };
 

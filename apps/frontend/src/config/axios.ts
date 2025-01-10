@@ -2,7 +2,7 @@
  * スネークケースで定義されているDBのカラムを
  * フロントエンド側のキャメルケースに変換するためのaxios拡張
  */
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, isAxiosError } from 'axios';
 import { camelCase } from 'change-case';
 
 const Axios: AxiosInstance = axios.create({
@@ -53,3 +53,5 @@ Axios.interceptors.response.use(response => {
 });
 
 export default Axios;
+
+export { isAxiosError };
