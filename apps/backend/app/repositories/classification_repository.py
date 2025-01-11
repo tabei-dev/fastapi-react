@@ -67,7 +67,7 @@ def get_classification_details(classification_enum: Enum) -> list[Classification
     if classification:
         return classification.details
 
-    raise ValueError(f"{classification_enum.value}の区分明細情報一覧が見つかりませんでした")
+    raise ValueError(f"区分列挙型({classification_enum.value})に該当する区分明細情報が見つかりませんでした")
 
 def get_classification_detail(classification_enum: Enum, detail_number: int) -> ClassificationDetail:
     '''
@@ -84,4 +84,4 @@ def get_classification_detail(classification_enum: Enum, detail_number: int) -> 
     #     if classification_detail.detail_number == detail_number:
     #         return classification_detail
 
-    raise ValueError(f"{classification_enum.value}({detail_number})が見つかりませんでした")
+    raise ValueError(f"区分列挙型({classification_enum.value})の区分明細情報({detail_number})が見つかりませんでした")

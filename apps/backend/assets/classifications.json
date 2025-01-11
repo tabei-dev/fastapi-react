@@ -6,13 +6,13 @@
       "details": [
         {
           "detail_number": 1,
-          "detail_name": "Administrator",
+          "detail_name": "Admin",
           "detail_jp_name": "管理者"
         },
         {
           "detail_number": 2,
-          "detail_name": "General",
-          "detail_jp_name": "一般"
+          "detail_name": "User",
+          "detail_jp_name": "ユーザー"
         }
       ]
     }
