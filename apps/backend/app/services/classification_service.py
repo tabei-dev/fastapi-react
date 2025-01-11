@@ -56,7 +56,7 @@ class ClassificationService(metaclass=SingletonMeta):
                 return classification.details
 
         raise ValueError(f"{classification_enum.value}の区分明細情報一覧が見つかりませんでした")
-    
+
     def __get_classification_detail(self, classification_enum: Enum, detail_number: int) -> ClassificationDetail:
         '''
         指定の区分列挙型と明細番号の区分明細情報を取得する
@@ -77,7 +77,7 @@ class ClassificationService(metaclass=SingletonMeta):
         :return: list[ClassificationDetail]: 権限区分情報一覧
         '''
         return self.__get_classification_details(self.__ClassificationEnum.ROLE)
-    
+
     def get_role(self, detail_number: int) -> ClassificationDetail:
         '''
         指定の明細番号の権限区分情報を取得する
@@ -85,6 +85,6 @@ class ClassificationService(metaclass=SingletonMeta):
         :return: ClassificationDetail: 権限区分情報
         '''
         return self.__get_classification_detail(self.__ClassificationEnum.ROLE, detail_number)
-    
+
 
 classification_service = ClassificationService()
