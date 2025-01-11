@@ -1,6 +1,6 @@
 import os
 import pytest
-from apps.backend.app.repositories.json_access import get_json_path
+from app.repositories.json_access import get_json_path
 
 def test_get_json_path_valid():
     # テスト用のJSONファイルを作成

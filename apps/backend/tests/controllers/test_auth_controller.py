@@ -1,10 +1,15 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 import pytest
-from fastapi.testclient import TestClient
 from unittest.mock import MagicMock, patch
+from fastapi.testclient import TestClient
 from app.main import app
-from app.models.user import User as UserModel
-from app.config.database import get_db
+from app.controllers.auth_controller import router as auth_router
+from app.services.auth_service import auth_service
 from app.utils.hash import HashUtil
+
+client = TestClient(app)
 
 @pytest.fixture(scope="module")
 def client():
@@ -15,23 +20,19 @@ def client():
 def mock_db():
     with patch("app.config.database.SessionLocal") as mock_session:
         mock_db = MagicMock()
-        mock_session.return_value = mock_db
+        mock_user = MagicMock()
+        mock_user.username = "testuser"
+        mock_user.password = HashUtil().get_hashed_password("testpassword")
+        mock_session.return_value.query().filter().first.return_value = mock_user
         yield mock_db
 
-@pytest.fixture
-def setup_mock_db(mock_db):
-    # モックデータベースのセットアップ
-    user = UserModel(username="testuser", password=HashUtil().get_password_hash("testpassword"))
-    mock_db.query.return_value.filter.return_value.first.return_value = user
-    yield
-
-def test_login(client, setup_mock_db):
+def test_login_success(client, mock_db):
     response = client.post("/auth/login", data={"username": "testuser", "password": "testpassword"})
     assert response.status_code == 200
     assert "access_token" in response.json()
     assert response.json()["token_type"] == "bearer"
 
-def test_read_users_me(client, setup_mock_db):
+def test_read_users_me(client, mock_db):
     login_response = client.post("/auth/login", data={"username": "testuser", "password": "testpassword"})
     token = login_response.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
@@ -39,7 +40,7 @@ def test_read_users_me(client, setup_mock_db):
     assert response.status_code == 200
     assert response.json() == {"username": "testuser"}
 
-def test_logout(client, setup_mock_db):
+def test_logout(client, mock_db):
     login_response = client.post("/auth/login", data={"username": "testuser", "password": "testpassword"})
     token = login_response.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}

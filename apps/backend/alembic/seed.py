@@ -18,14 +18,14 @@ def seed():
         User(
             username="testuser1",
             email="testuser1@examples.com",
-            password=hash.get_password_hash("password1"),
+            password=hash.get_hashed_password("password1"),
             from_date=datetime(2024, 12, 13),
             to_date=None,
         ),
         User(
             username="testuser2",
             email="testuser2@examples.com",
-            password=hash.get_password_hash("password2"),
+            password=hash.get_hashed_password("password2"),
             from_date=datetime(2024, 12, 13),
             to_date=None,
         ),

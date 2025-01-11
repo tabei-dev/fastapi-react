@@ -6,7 +6,7 @@ import json
 from enum import Enum
 from functools import lru_cache
 from app.models.classification import ClassificationEnum, Classification, ClassificationDetail
-from apps.backend.app.repositories.json_access import get_json_path
+from app.repositories.json_access import get_json_path
 # import logging
 
 # logging.basicConfig(level=logging.INFO)
@@ -26,18 +26,21 @@ def __load_classifications_json() -> dict[int, Classification]:
     :return: dict[Classification]: 区分辞書
     '''
     classifications_json_path = get_json_path('classifications.json')
-    # logger.info(f'messages_json_path: {messages_json_path}') # デバッグ用ログ
     with open(classifications_json_path, 'r', encoding='utf-8') as file:
         json_data = json.load(file)
         classifications = {}
         for classification in json_data['classifications']:
-            classification_enum = ClassificationEnum[classification['classification_enum']]
+            classification_name = ClassificationEnum[classification['classification_name']]
             details = {
-                ClassificationEnum[key]: ClassificationDetail(**value)
-                for key, value in classification['details'].items()
+                ClassificationEnum[classification['classification_name']]: ClassificationDetail(
+                    detail_number=detail['detail_number'],
+                    detail_name=detail['detail_name'],
+                    detail_jp_name=detail['detail_jp_name']
+                )
+                for detail in classification['details']
             }
-            classifications[classification_enum] = Classification(
-                classification_enum=classification_enum,
+            classifications[classification_name] = Classification(
+                classification_enum=classification_name,
                 details=details
             )
         return classifications

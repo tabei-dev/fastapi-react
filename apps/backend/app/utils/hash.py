@@ -37,9 +37,9 @@ class HashUtil:
     '''
 
     @staticmethod
-    def get_password_hash(password: str) -> str:
+    def get_hashed_password(password: str) -> str:
         '''
-        パスワードのハッシュ化
+        ハッシュ化したパスワードを取得します
         :param password: str: ハッシュ化するパスワード
         :return: str: ハッシュ化されたパスワード
         '''

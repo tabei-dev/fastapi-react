@@ -5,7 +5,7 @@
 import json
 from functools import lru_cache
 from app.models.message import Message
-from apps.backend.app.repositories.json_access import get_json_path
+from app.repositories.json_access import get_json_path
 # import logging
 
 # logging.basicConfig(level=logging.INFO)
