@@ -10,7 +10,8 @@ from app.repositories.json_access import get_json_path
 @lru_cache(maxsize=1)
 def __load_classifications_json() -> dict[ClassificationEnum, Classification]:
     '''
-    classifications.jsonを読み込み、区分一覧を取得します
+    classifications.jsonを読み込み、区分情報辞書を取得します。
+    区分情報には区分明細情報辞書も含まれます。
     :return: dict[ClassificationEnum, Classification]: 区分辞書
     '''
     classifications_json_path = get_json_path('classifications.json')
