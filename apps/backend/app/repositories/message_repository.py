@@ -1,10 +1,9 @@
 '''
 メッセージ情報リポジトリ
 '''
-import json
 from functools import lru_cache
 from app.models.message import Message
-from app.repositories.json_access import get_json_path
+from app.repositories.json_access import get_json_data
 
 @lru_cache(maxsize=1)
 def __load_messages_json() -> dict[int, Message]:
@@ -12,10 +11,8 @@ def __load_messages_json() -> dict[int, Message]:
     massages.jsonを読み込み、メッセージ情報辞書を取得します
     :return: dict[Message]: メッセージ情報辞書
     '''
-    messages_json_path = get_json_path('messages.json')
-    with open(messages_json_path, 'r', encoding='utf-8') as file:
-        json_data = json.load(file)
-        return {message['number']: Message(**message) for message in json_data['messages']}
+    json_data = get_json_data('messages.json')
+    return {message['number']: Message(**message) for message in json_data['messages']}
 
 __messages = __load_messages_json()
 
@@ -30,4 +27,5 @@ def get_message(number: int) -> str:
     if message:
         return message.message
 
-    raise ValueError(f"メッセージ番号({number})に該当するメッセージが見つかりませんでした")
+    # raise ValueError(f"メッセージ番号({number})に該当するメッセージが見つかりませんでした")
+    assert False, f"メッセージ番号({number})に該当するメッセージが見つかりませんでした"

@@ -1,13 +1,19 @@
+from app.models.error import Error
+
 class ValidationError(Exception):
     '''
     バリデーションエラークラス
     '''
-    def __init__(self, err_msg: str, fieldname: str | None = None):
+    def __init__(self, error_massage: str, field_name: str | None = None):
         '''
         コンストラクタ
-        :param err_msg: str: エラーメッセージ
-        :param fieldname: str: 項目名
+        :param error_massage: str: エラーメッセージ
+        :param field_name: str: 項目名
         '''
-        self.err_msg = err_msg
-        self.fieldname = fieldname
-        super().__init__(err_msg)
+        # self.error_massage = error_massage
+        # self.field_name = field_name
+        self.error: Error = {
+            'error_massage': error_massage,
+            'field_name': field_name
+        }
+        super().__init__(error_massage)

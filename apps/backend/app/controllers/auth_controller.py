@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from typing import Union
 from app.config.database import get_db
 from app.errors.validation_error import ValidationError
 from app.models.token import Token
+from app.models.error import Error
 from app.services.auth_service import auth_service
 # import logging
 
@@ -30,24 +32,42 @@ async def login(
         access_token = auth_service.authenticate(db, form_data.username, form_data.password)
     except ValidationError as e:
         # 異常系のステータスコードを通知するためにHTTPExceptionをraise
+        # raise HTTPException(
+        #     status_code=422,
+        #     detail={
+        #         "token": {
+        #             "access_token": "",
+        #             "token_type": "",
+        #         },
+        #         "error": {
+        #             "field_name": e.error.field_name,
+        #             "error_message": e.error.error_message,
+        #         }
+        #     }
+        # )
+        # return Error(field_name=e.error.field_name, error_message=e.error.error_message)
         raise HTTPException(
             status_code=422,
             detail={
-                "access_token": "",
-                "token_type": "",
-                "message": e.err_msg,
-                "fieldname": e.fieldname,
+                "field_name": e.error.field_name,
+                "error_message": e.error.error_message,
             }
         )
+    
     # トークンをCookieにセット
     response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "message": "認証成功",
-        "fieldname": ""
-    }
+    # return {
+    #     "token": {
+    #         "access_token": access_token,
+    #         "token_type": "bearer",
+    #     },
+    #     "error": {
+    #         "filed_name": "",
+    #         "error_message": "",
+    #     }
+    # }
+    return Token(access_token=access_token, token_type="bearer")
 
 @router.get("/users/me")
 async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:

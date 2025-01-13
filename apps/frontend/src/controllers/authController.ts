@@ -3,8 +3,8 @@ import axios, { isAxiosError } from '@/config/axios';
 interface LoginResponse {
   accessToken: string;
   tokenType: string;
-  message: string;
-  fieldname: string;
+  // message: string;
+  // fieldname: string;
 }
 
 interface LoginRequest {
