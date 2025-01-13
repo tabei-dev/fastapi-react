@@ -1,38 +1,32 @@
 '''
 メッセージ情報リポジトリ
 '''
-
 import json
 from functools import lru_cache
 from app.models.message import Message
 from app.repositories.json_access import get_json_path
-# import logging
-
-# logging.basicConfig(level=logging.INFO)
-# logger = logging.getLogger(__name__)
 
 @lru_cache(maxsize=1)
 def __load_messages_json() -> dict[int, Message]:
     '''
-    massages.jsonを読み込み、メッセージ一覧を取得します
-    :return: dict[Message]: メッセージ辞書
+    massages.jsonを読み込み、メッセージ情報辞書を取得します
+    :return: dict[Message]: メッセージ情報辞書
     '''
     messages_json_path = get_json_path('messages.json')
-    # logger.info(f'messages_json_path: {messages_json_path}') # デバッグ用ログ
     with open(messages_json_path, 'r', encoding='utf-8') as file:
         json_data = json.load(file)
         return {message['number']: Message(**message) for message in json_data['messages']}
 
-_messages = __load_messages_json()
+__messages = __load_messages_json()
 
 def get_message(number: int) -> str:
     '''
-    メッセージ番号に該当するメッセージを取得する
-    :param number: int: 番号
+    メッセージ番号に該当するメッセージを取得します
+    :param number: int: メッセージ番号
     :return: str: メッセージ
     :raise ValueError: メッセージが見つからない場合
     '''
-    message = _messages.get(number)
+    message = __messages.get(number)
     if message:
         return message.message
 

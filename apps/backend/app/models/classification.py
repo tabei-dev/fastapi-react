@@ -22,11 +22,8 @@ class ClassificationDetail(BaseModel):
 class Classification(BaseModel):
     '''
     区分情報
-    :param classification_name: str: 区分名
-    :param classification_jp_name: str: 区分日本語名
-    :param classificationDetails: list[ClassificationDetail]: 区分明細情報リスト
+    :param classification_enum: ClassificationEnum: 区分列挙型
+    :param details: dict[int, ClassificationDetail]: 区分明細情報辞書
     '''
     classification_enum: ClassificationEnum
-    # classification_name: str
-    # classification_jp_name: str
-    details: dict[ClassificationEnum, ClassificationDetail]
+    details: dict[int, ClassificationDetail]

@@ -2,7 +2,7 @@ class ValidationError(Exception):
     '''
     バリデーションエラークラス
     '''
-    def __init__(self, err_msg: str, fieldname: str = None):
+    def __init__(self, err_msg: str, fieldname: str | None = None):
         '''
         コンストラクタ
         :param err_msg: str: エラーメッセージ

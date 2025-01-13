@@ -1,7 +1,7 @@
 import redis as Redis
 import jwt
 from sqlalchemy.orm import Session
-from datetime import timedelta
+from datetime import datetime, timedelta
 from app.config.settings import settings
 from app.errors.validation_error import ValidationError
 from app.repositories.message_repository import get_message
@@ -42,7 +42,6 @@ class AuthService:
         access_token = self.__create_access_token(username)
         return access_token
 
-    # def verify_token(self, token: str) -> dict[str, str]:
     def verify_token(self, token: str) -> str:
         '''
         トークンを検証します
@@ -71,7 +70,6 @@ class AuthService:
         トークンをブラックリストに登録します
         :param token: str: トークン
         '''
-        # self.redis.set(token, "1", ex=self.ACCESS_TOKEN_EXPIRE_MINUTES * 60)
         self.redis.set(token, "revoked", ex=self.ACCESS_TOKEN_EXPIRE_MINUTES * 60)
 
     def __create_access_token(self, username: str) -> str:
@@ -81,13 +79,11 @@ class AuthService:
         :return: str: トークン
         '''
         expire = self.__create_expire()
-        to_encode = {"sub": username}.copy()
-        to_encode.update({"exp": expire})
-
+        to_encode = {"sub": username, "exp": expire}
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
 
-    def __create_expire(self) -> timedelta:
+    def __create_expire(self) -> datetime:
         '''
         有効期限を生成します
         :return: timedelta: 有効期限

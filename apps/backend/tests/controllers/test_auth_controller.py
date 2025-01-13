@@ -5,11 +5,7 @@ import pytest
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from app.main import app
-from app.controllers.auth_controller import router as auth_router
-from app.services.auth_service import auth_service
 from app.utils.hash import HashUtil
-
-client = TestClient(app)
 
 @pytest.fixture(scope="module")
 def client():

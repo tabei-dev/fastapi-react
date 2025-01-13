@@ -35,7 +35,7 @@ async def login(
             detail={
                 "access_token": "",
                 "token_type": "",
-                "message": e.message,
+                "message": e.err_msg,
                 "fieldname": e.fieldname,
             }
         )
