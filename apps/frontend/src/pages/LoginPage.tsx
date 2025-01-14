@@ -12,7 +12,7 @@ import { RHFTextField } from '@/parts/TextField';
  * @returns {JSX.Element} JSX.Element
  */
 const LoginPage = (): JSX.Element => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setError } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
@@ -26,10 +26,11 @@ const LoginPage = (): JSX.Element => {
    * @param user ユーザー情報
    */
   const handleLoginClick = async (user: { username: string; password: string }) => {
-    try {
-      await login(user);
-    } catch (error) {
-      console.error('Login failed:', error);
+    const response = await login(user);
+    if (response.status === 'FAIRLURE') {
+      setError(response.error?.fieldname as 'username' | 'password', {
+        message: response.error?.message,
+      });
     }
   };
 

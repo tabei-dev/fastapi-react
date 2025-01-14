@@ -2,13 +2,13 @@ class ValidationError(Exception):
     '''
     バリデーションエラークラス
     '''
-    def __init__(self, error_message: str, field_name: str | None = None):
+    def __init__(self, message: str, fieldname: str | None = None):
         '''
         コンストラクタ
-        :param error_massage: str: エラーメッセージ
-        :param field_name: str: 項目名
+        :param message: str: エラーメッセージ
+        :param fieldname: str: 項目名
         '''
-        self.error_message = error_message
-        self.field_name = field_name
+        self.message = message
+        self.fieldname = fieldname
 
-        super().__init__(error_message)
+        super().__init__(message)

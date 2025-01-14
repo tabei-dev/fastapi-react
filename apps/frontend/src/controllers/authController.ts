@@ -1,10 +1,9 @@
 import axios, { isAxiosError } from '@/config/axios';
+import HttpResponse from '@/models/httpResponse';
 
 interface LoginResponse {
   accessToken: string;
   tokenType: string;
-  // message: string;
-  // fieldname: string;
 }
 
 interface LoginRequest {
@@ -15,8 +14,9 @@ interface LoginRequest {
 /**
  * ログイン処理
  * @param request ログインリクエスト情報
+ * @throws HttpResponse HTTPレスポンス情報
  */
-export const login = async (request: LoginRequest): Promise<void> => {
+export const login = async (request: LoginRequest): Promise<HttpResponse> => {
   try {
     const response = await axios.post<LoginResponse>(
       '/auth/login',
@@ -31,12 +31,23 @@ export const login = async (request: LoginRequest): Promise<void> => {
     );
 
     console.log('ログインに成功しました:', response);
+    // アクセストークンをセッションストレージに保存
     sessionStorage.setItem('accessToken', response.data.accessToken);
+
+    return new HttpResponse({ status: 'SUCCESS', error: null });
   } catch (error) {
     if (isAxiosError(error)) {
       const { response } = error;
       console.error('ログインに失敗しました', response);
+      return new HttpResponse({
+        status: 'FAIRLURE',
+        error: {
+          message: response?.data.detail.message,
+          fieldname: response?.data.detail.fieldname,
+        },
+      });
     }
+    throw Error('AxiosErrorではありません');
   }
 };
 

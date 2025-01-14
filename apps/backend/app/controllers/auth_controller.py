@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from typing import Union
 from app.config.database import get_db
 from app.errors.validation_error import ValidationError
 from app.models.token import Token
@@ -25,47 +24,23 @@ async def login(
     :param response: Response: レスポンス
     :param form_data: OAuth2PasswordRequestForm: フォームデータ
     :param db: Session: DBセッション
-    :return: dict: レスポンス（トークン情報）
+    :return: Token: トークン情報
     '''
     try:
         access_token = auth_service.authenticate(db, form_data.username, form_data.password)
     except ValidationError as e:
-        # 異常系のステータスコードを通知するためにHTTPExceptionをraise
-        # raise HTTPException(
-        #     status_code=422,
-        #     detail={
-        #         "token": {
-        #             "access_token": "",
-        #             "token_type": "",
-        #         },
-        #         "error": {
-        #             "field_name": e.error.field_name,
-        #             "error_message": e.error.error_message,
-        #         }
-        #     }
-        # )
-        # return Error(field_name=e.error.field_name, error_message=e.error.error_message)
+        # logger.info(f"フィールド名: {e.fieldname}, エラーメッセージ: {e.message}")
         raise HTTPException(
             status_code=422,
             detail={
-                "field_name": e.field_name,
-                "error_message": e.error_message,
+                "fieldname": e.fieldname,
+                "message": e.message,
             }
         )
 
     # トークンをCookieにセット
     response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
 
-    # return {
-    #     "token": {
-    #         "access_token": access_token,
-    #         "token_type": "bearer",
-    #     },
-    #     "error": {
-    #         "filed_name": "",
-    #         "error_message": "",
-    #     }
-    # }
     return Token(access_token=access_token, token_type="bearer")
 
 @router.get("/users/me")

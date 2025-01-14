@@ -47,8 +47,8 @@ app.include_router(auth_router, prefix="/auth")
 
 @app.exception_handler(ValidationError)
 async def validation_exception_handler(request: Request, exc: ValidationError):
-    logger.debug(f"到達:ValidationError: {exc.error_message}")
+    logger.debug(f"到達:ValidationError: {exc.message}")
     return JSONResponse(
         status_code=422,
-        content={"message": exc.error_message}
+        content={"message": exc.message}
     )
