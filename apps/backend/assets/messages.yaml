@@ -1,0 +1,9 @@
+messages:
+  - number: '4001'
+    message: 'ユーザーが見つかりません'
+  - number: '4002'
+    message: 'パスワードが一致しません'
+  - number: '4003'
+    message: '認証に失敗しました'
+  - number: '4004'
+    message: '必須入力項目です'

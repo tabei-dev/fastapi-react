@@ -17,3 +17,4 @@ redis
 pyjwt
 httpx
 python-multipart
+PyYAML

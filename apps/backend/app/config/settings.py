@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 # .envファイルを読み込む
 load_dotenv()
 
-class Settings(BaseSettings):
+class __Settings(BaseSettings):
     '''
     設定クラス
     :param environment: str: 環境
@@ -27,4 +27,13 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file='settings.env')
 
-settings = Settings()
+settings = __Settings()
+
+def get_assets_path() -> str:
+    '''
+    アセットディレクトリのパスを取得します
+    :return: str: アセットディレクトリのパス
+    '''
+    current_file_dir = os.path.dirname(os.path.abspath(__file__))
+    assets_path = os.path.join(current_file_dir, '..', '..', 'assets')
+    return assets_path
