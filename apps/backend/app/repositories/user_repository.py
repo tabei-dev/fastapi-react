@@ -29,10 +29,10 @@ class UserRepository:
         '''
         user = self._db.query(User).filter(User.username == username).first()
         if not user:
-            raise ValidationError(get_message(4001), 'username')
+            raise ValidationError(get_message('4001'), 'username')
 
         if not user or not HashUtil().verify_password(password, user.password):
-            raise ValidationError(get_message(4002), 'password')
+            raise ValidationError(get_message('4002'), 'password')
 
     # def get_user(self, username: str) -> User:
     #     '''

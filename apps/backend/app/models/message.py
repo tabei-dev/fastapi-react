@@ -1,12 +1,11 @@
-# from pydantic.dataclasses import dataclass
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, StringConstraints
+from typing_extensions import Annotated
 
-# @dataclass
 class Message(BaseModel):
     '''
     メッセージ情報
-    :param number: int: メッセージ番号
+    :param number: str: メッセージ番号
     :param message: str: メッセージ
     '''
-    number: constr(min_length=1, max_length=4) # type: ignore
-    message: constr(min_length=1, max_length=256) # type: ignore
+    number: Annotated[str, StringConstraints(min_length=1, max_length=4)]
+    message: Annotated[str, StringConstraints(min_length=1, max_length=256)]

@@ -1,6 +1,7 @@
 import os
 import yaml
 from functools import lru_cache
+from typing import Any
 from app.config.settings import get_assets_path
 
 @lru_cache(maxsize=1)
@@ -21,7 +22,7 @@ def __get_yaml_path(yaml_filename: str) -> str:
     return yaml_path
 
 @lru_cache(maxsize=1)
-def get_yaml_data(yaml_filename: str) -> dict:
+def get_yaml_data(yaml_filename: str) -> dict[str, Any]:
     '''
     YAMLファイルを読み込み、JSONデータを取得します
     :param yaml_filename: str: YAMLファイル名

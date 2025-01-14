@@ -5,7 +5,6 @@ from typing import Union
 from app.config.database import get_db
 from app.errors.validation_error import ValidationError
 from app.models.token import Token
-from app.models.error import Error
 from app.services.auth_service import auth_service
 # import logging
 
@@ -20,7 +19,7 @@ async def login(
         response: Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_db)
-    ) -> dict[str, str]:
+    ) -> Token:
     '''
     ログイン
     :param response: Response: レスポンス
@@ -49,11 +48,11 @@ async def login(
         raise HTTPException(
             status_code=422,
             detail={
-                "field_name": e.error.field_name,
-                "error_message": e.error.error_message,
+                "field_name": e.field_name,
+                "error_message": e.error_message,
             }
         )
-    
+
     # トークンをCookieにセット
     response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
 

@@ -75,10 +75,14 @@ init-db:
 	@make init-migrations
 	@make upgrade-head
 	@make seed
+
+# 仮想環境を初期化するターゲット
 init-venv:
-	sudo rm -rf venv
-	python3.13 -m venv venv
-	source venv/bin/activate
+	python3 -m venv venv
+	source venv/bin/activate && pip install -r apps/backend/requirements.txt
+# 仮想環境をアクティベートして依存関係をインストールするターゲット
+pip-install-venv:
+	source venv/bin/activate && pip install -r apps/backend/requirements.txt
 
 frontend-bash:
 	docker compose exec frontend bash

@@ -18,3 +18,4 @@ pyjwt
 httpx
 python-multipart
 PyYAML
+types-PyYAML

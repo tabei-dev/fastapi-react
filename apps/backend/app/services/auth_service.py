@@ -55,13 +55,13 @@ class AuthService:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
             username: str = payload.get("sub")
             if username is None:
-                raise ValidationError(get_message(4003), 'username')
+                raise ValidationError(get_message('4003'), 'username')
         except jwt.PyJWTError:
-            raise ValidationError(get_message(4003), 'username')
+            raise ValidationError(get_message('4003'), 'username')
 
         # トークンがブラックリストにあるか確認
         if self.redis.get(token):
-            raise ValidationError(get_message(4003), 'username')
+            raise ValidationError(get_message('4003'), 'username')
 
         return username
 
