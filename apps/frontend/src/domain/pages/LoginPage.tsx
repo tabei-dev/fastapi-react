@@ -1,11 +1,15 @@
 // import { ReactElement } from 'react';
 import { JSX } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { Container, Paper, Stack, Button } from '@mui/material';
+// import { useSetRecoilState } from 'recoil';
 
 import { RHFTextField } from '@/common/components/TextField';
-import { login } from '@/domain/controllers/authController';
+import ValidationError from '@/common/models/validationError';
+import { PAGE_LINKS } from '@/domain/config/consts';
+import authService from '@/domain/services/authService';
 
 /**
  * ログインページ
@@ -21,17 +25,26 @@ const LoginPage = (): JSX.Element => {
     },
   });
 
+  const navigate = useNavigate();
+
+  // const setAuth = useSetRecoilState(authState);
+
   /**
    * ログインボタンクリックイベントハンドラ
    * @param user ユーザー情報
    */
   const handleLoginClick = async (user: { username: string; password: string }) => {
-    const response = await login(user);
-    if (response.status === 'FAIRLURE') {
-      setError(response.error?.fieldname as 'username' | 'password', {
-        message: response.error?.message,
-      });
+    try {
+      await authService.login(user);
+      // setAuth(auth); // 認証情報をRecoilに保存
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        setError(error.fieldname as 'username' | 'password', { message: error.message });
+      }
+      return;
     }
+
+    navigate(PAGE_LINKS.MENU);
   };
 
   return (

@@ -6,19 +6,20 @@ import { useNavigate } from 'react-router-dom';
 // import { useKey, useEvent } from 'react-use';
 
 import { Box } from '@mui/material';
-import { AuthContext } from 'contexts/AuthContext';
+// import { AuthContext } from 'contexts/AuthContext';
 import { useRecoilValue } from 'recoil';
 
-import Alertbar from '@/common/components/Alertbar';
+// import Alertbar from '@/common/components/Alertbar';
 import Breadcrumb from '@/common/components/Breadcrumb';
 import { OpenModalList } from '@/common/components/Modal';
 import SideMenu, { DRAWER_WIDTH } from '@/common/components/SideMenu';
-import { ICategoryType, IPageType } from '@/common/config/types';
+// import { ICategoryType, IPageType } from '@/common/config/types';
 
 type Props = {
-  category?: ICategoryType | null;
-  page?: IPageType | null;
-  sideMenuChildren: ReactNode;
+  // category?: ICategoryType | null;
+  // page?: IPageType | null;
+  category?: string | undefined;
+  page?: string | undefined;
   children: ReactNode;
 };
 
@@ -29,53 +30,53 @@ type Props = {
  * @param Props.children 子ノード
  * @returns {JSX.Element} JSX.Element
  */
-const Page = ({ category = null, page = null, sideMenuChildren, children }: Props): JSX.Element => {
+const Page = ({ category = undefined, page = undefined, children }: Props): JSX.Element => {
   // 認証情報
-  const { setAuth, lastTime, setLastTime } = useContext(AuthContext);
+  // const { setAuth, lastTime, setLastTime } = useContext(AuthContext);
   // サイドメニュー開閉フラグ
-  const [sideMenuOpen, setSideMenuOpen] = useState<boolean>(true);
+  const [sideMenuOpen, setSideMenuOpen] = useState(true);
   // アラート情報
   const [alert, setAlert] = useState({ open: false, message: '' });
   // 画面遷移用関数
   const navigate = useNavigate();
-  // 表示中モーダル一覧
-  const openModalList = useRecoilValue(OpenModalList);
+  // // 表示中モーダル一覧
+  // const openModalList = useRecoilValue(OpenModalList);
 
   /**
    * タイムアウトかどうかを判定
    */
-  const ditectTimeout = () => {
-    // 現在時刻より最終操作時刻を減じた値（ミリ秒）が.envのVITE_LIFETIME（分）を
-    // 超えている場合はタイムアウトとしてAlertbarを出力
-    if (Date.now() - lastTime > import.meta.env.VITE_LIFETIME * 60 * 1000) {
-      setAlert({
-        open: true,
-        message: '一定時間操作がなかったためログアウトします。',
-      });
-    }
-    // 最終操作時刻を再設定
-    setLastTime(Date.now());
-  };
+  // const ditectTimeout = () => {
+  //   // 現在時刻より最終操作時刻を減じた値（ミリ秒）が.envのVITE_LIFETIME（分）を
+  //   // 超えている場合はタイムアウトとしてAlertbarを出力
+  //   if (Date.now() - lastTime > import.meta.env.VITE_LIFETIME * 60 * 1000) {
+  //     setAlert({
+  //       open: true,
+  //       message: '一定時間操作がなかったためログアウトします。',
+  //     });
+  //   }
+  //   // 最終操作時刻を再設定
+  //   setLastTime(Date.now());
+  // };
 
   /**
    * Alertbarクローズイベントハンドラ
    */
-  const handleAlertberClose = () => {
-    // アラートを消去
-    setAlert({ open: false, message: '' });
-    // 表示中のモーダル画面をすべて閉じる
-    openModalList.forEach(openModal => openModal(false));
-    // 認証情報をクリアしてログアウト
-    setAuth({
-      userId: '',
-      loginId: '',
-      userName: '',
-      authClsCd: '',
-      companyId: '',
-    });
-    // ホーム画面に遷移
-    navigate('/');
-  };
+  // const handleAlertberClose = () => {
+  //   // アラートを消去
+  //   setAlert({ open: false, message: '' });
+  //   // 表示中のモーダル画面をすべて閉じる
+  //   openModalList.forEach(openModal => openModal(false));
+  //   // 認証情報をクリアしてログアウト
+  //   setAuth({
+  //     userId: '',
+  //     loginId: '',
+  //     userName: '',
+  //     authClsCd: '',
+  //     companyId: '',
+  //   });
+  //   // ホーム画面に遷移
+  //   navigate('/');
+  // };
 
   // // F5とCtrl+rを無効化
   // useKey(
@@ -95,15 +96,15 @@ const Page = ({ category = null, page = null, sideMenuChildren, children }: Prop
   // );
 
   return (
-    <Box sx={{ display: 'flex' }} onClick={ditectTimeout}>
+    // <Box sx={{ display: 'flex' }} onClick={ditectTimeout}>
+    <Box sx={{ display: 'flex' }}>
       {/* サイドメニュー */}
       <SideMenu
-        // selectedSubMenu={subMenu}
-        homePageLink={category}
-        // selectedPage={page}
+        selectedSubMenu={category}
+        // homePageLink={category}
+        selectedPage={page}
         sideMenuOpen={sideMenuOpen}
         setSideMenuOpen={setSideMenuOpen}
-        children={sideMenuChildren}
       />
       <Box
         sx={{
@@ -123,25 +124,22 @@ const Page = ({ category = null, page = null, sideMenuChildren, children }: Prop
         }}
       >
         {/* パンくずリスト */}
-        {/* {breadcrumbMemo} */}
-        {subMenu && page && (
-          <Breadcrumb
-            category={subMenu}
-            page={page}
-            sideMenuOpen={sideMenuOpen}
-            setSideMenuOpen={setSideMenuOpen}
-          />
-        )}
+        <Breadcrumb
+          category={category}
+          page={page}
+          sideMenuOpen={sideMenuOpen}
+          setSideMenuOpen={setSideMenuOpen}
+        />
         {/* メインコンテンツ */}
         {children}
       </Box>
-      <Alertbar
+      {/* <Alertbar
         open={alert.open}
         message={alert.message}
         severity="error"
         autoHideDuration={6000}
         onClose={handleAlertberClose}
-      />
+      /> */}
     </Box>
   );
 };

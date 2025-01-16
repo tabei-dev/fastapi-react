@@ -1,6 +1,6 @@
 type Auth = {
   username: string;
   email: string;
-  roloCls: string;
+  roleCls: string;
 };
 export default Auth;

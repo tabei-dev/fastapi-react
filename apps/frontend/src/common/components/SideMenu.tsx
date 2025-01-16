@@ -40,8 +40,9 @@ import {
 // import { AuthContext } from 'contexts/AuthContext';
 // import { useSetRecoilState } from 'recoil';
 
-import { IPageLinkType } from '@/common/config/types';
 import { ISideMenu } from '@/common/components/ISideMenu';
+import { ICategoryType, IPageType, IPageLinkType } from '@/common/config/types';
+import { useSideMenu } from '@/common/contexts/sideMenuContext';
 
 /** ドロワー幅 */
 export const DRAWER_WIDTH = 250 as const;
@@ -51,9 +52,10 @@ export const DRAWER_WIDTH = 250 as const;
 // }
 
 type Props = {
-  // selectedSubMenu?: SubMenuType | null;
-  // selectedPage?: PageNameType | null;
-  homePageLink: IPageLinkType;
+  // selectedSubMenu?: ICategoryType | null;
+  // selectedPage?: IPageType | null;
+  selectedSubMenu?: string | undefined;
+  selectedPage?: string | undefined;
   sideMenuOpen: boolean;
   setSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children?: ReactNode;
@@ -68,13 +70,12 @@ type Props = {
  * @returns {JSX.Element} JSX.Element
  */
 const SideMenu = ({
-  // selectedSubMenu = null,
-  // selectedPage = null,
-  homePageLink,
+  selectedCategory = undefined,
+  selectedPage = undefined,
   sideMenuOpen,
   setSideMenuOpen,
-  children,
 }: Props): JSX.Element => {
+  const sideMenu = useSideMenu();
   // // ListItemスタイル
   // const StyListItem = styled('div')({
   //   borderBottom: '1px solid #d8d8d8',
@@ -102,19 +103,19 @@ const SideMenu = ({
 
   // // 認証情報
   // const { auth, setAuth } = useContext(AuthContext);
-  // メニューアイテム開閉フラグ
-  const [menuItemOpens, setMenuItemOpens] = useState({
-    user: false,
-    order: false,
-    shipping: false,
-    rental: false,
-    return: false,
-    master: false,
-  });
-  // メニューアイテムフル開閉フラグ
-  const [menuItemFullOpen, setMenuItemFullOpen] = useState(false);
+  // // メニューアイテム開閉フラグ
+  // const [menuItemOpens, setMenuItemOpens] = useState({
+  //   user: false,
+  //   order: false,
+  //   shipping: false,
+  //   rental: false,
+  //   return: false,
+  //   master: false,
+  // });
+  // // メニューアイテムフル開閉フラグ
+  // const [menuItemFullOpen, setMenuItemFullOpen] = useState(false);
   // 画面遷移用関数
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   /**
    * 選択中サブメニューを展開する
@@ -235,7 +236,7 @@ const SideMenu = ({
           <Box>
             <AppBar position="static" color="inherit">
               <Toolbar style={{ padding: 0, display: 'flex' }}>
-                <Link data-testid="linkMainMenu" to={homePageLink}>
+                <Link data-testid="linkMainMenu" to={sideMenu.getHopePageLink()}>
                   <Card sx={{ boxShadow: 'none', pt: 2, mb: 2 }}>
                     <CardMedia
                       sx={{ display: 'block', width: 150, ml: 1 }}
@@ -244,27 +245,19 @@ const SideMenu = ({
                     />
                   </Card>
                 </Link>
-                {/* <Box sx={{ ml: 'auto' }}>
+                <Box sx={{ ml: 'auto' }}>
                   {selectedPage && (
                     <IconButton onClick={() => setSideMenuOpen(false)}>
                       <ChevronLeftIcon />
                     </IconButton>
                   )}
-                </Box> */}
+                </Box>
               </Toolbar>
             </AppBar>
-            <ListSubheader
-              sx={{ cursor: 'pointer', color: '#1b1b1b' }}
-              component="div"
-              id="menu"
-              // onClick={handleMenuClick}
-            >
-              メニュー
-            </ListSubheader>
           </Box>
         }
       >
-        {children}
+        {sideMenu.getSiderMenuChildren()}
       </List>
     </Drawer>
   );

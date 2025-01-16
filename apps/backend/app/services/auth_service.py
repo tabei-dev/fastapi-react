@@ -46,6 +46,7 @@ class AuthService:
             access_token=access_token,
             token_type="bearer",
             username=user.username,
+            email=user.email,
             role_cls=user.role_cls,
         )
 

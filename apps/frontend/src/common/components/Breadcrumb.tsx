@@ -6,11 +6,11 @@ import { JSX } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Toolbar, IconButton, Box, Typography } from '@mui/material';
 
-import { ICategoryType, IPageType } from '@/common/config/types';
+// import { ICategoryType, IPageType } from '@/common/config/types';
 
 export type BreadcrumbProps = {
-  category: ICategoryType;
-  page: IPageType;
+  category: string | undefined;
+  page: string | undefined;
   sideMenuOpen: boolean;
   setSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -42,12 +42,16 @@ const Breadcrumb = ({
       >
         <MenuIcon />
       </IconButton>
-      <Box component="span">{category.toString()}</Box>
-      <Box component="span" sx={{ ml: 1, mr: 1 }}>
-        ＞
-      </Box>
+      {category && (
+        <>
+          <Box component="span">{category.toString()}</Box>
+          <Box component="span" sx={{ ml: 1, mr: 1 }}>
+            ＞
+          </Box>
+        </>
+      )}
       <Typography component="h1" sx={{ fontSize: 14, fontWeight: 'bold' }}>
-        {page.toString()}
+        {page?.toString()}
       </Typography>
     </Toolbar>
   </AppBar>

@@ -1,4 +1,4 @@
-import { IPageLinkType } from '@/common/config/types';
+// import { ICategoryType, IPageType, IPageLinkType } from '@/common/config/types';
 
 /**
  * カテゴリ
@@ -23,7 +23,7 @@ export type PageNameType = (typeof PAGES)[keyof typeof PAGES];
 /**
  * ページリンク
  */
-export const PAGE_LINKS: IPageLinkType = {
+export const PAGE_LINKS = {
   // メニュー
   MENU: '/menu',
   // マスタ管理 > ユーザー照会
