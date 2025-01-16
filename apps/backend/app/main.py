@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 # from pydantic import ValidationError
 # from app.config.database import connect_db, close_db
 from app.config.settings import settings
-from app.controllers.auth_controller import router as auth_router
+from app.routers.auth_router import router as auth_router
 from app.errors.validation_error import ValidationError
 # from app.services.classification_service import classification_service
 # from app.services.message_service import message_service

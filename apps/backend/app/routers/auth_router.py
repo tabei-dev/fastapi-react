@@ -5,10 +5,6 @@ from app.config.database import get_db
 from app.errors.validation_error import ValidationError
 from app.models.auth import Auth
 from app.services.auth_service import auth_service
-# import logging
-
-# logging.basicConfig(level=logging.INFO)
-# logger = logging.getLogger(__name__)
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -29,7 +25,6 @@ async def login(
     try:
         token = auth_service.authenticate(db, form_data.username, form_data.password)
     except ValidationError as e:
-        # logger.info(f"フィールド名: {e.fieldname}, エラーメッセージ: {e.message}")
         raise HTTPException(
             status_code=422,
             detail={
