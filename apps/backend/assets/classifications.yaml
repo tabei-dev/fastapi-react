@@ -2,9 +2,9 @@ classifications:
   - classification_name: 'ROLE'
     classification_jp_name: '権限'
     details:
-      - detail_number: '01'
-        detail_name: 'Admin'
+      - detail_number: '00'
+        detail_name: 'ADMIN'
         detail_jp_name: '管理者'
-      - detail_number: '02'
-        detail_name: 'User'
+      - detail_number: '01'
+        detail_name: 'USER'
         detail_jp_name: 'ユーザー'

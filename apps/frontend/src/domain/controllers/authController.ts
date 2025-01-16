@@ -1,5 +1,5 @@
-import axios, { isAxiosError } from '@/config/axios';
-import HttpResponse from '@/models/httpResponse';
+import axios, { isAxiosError, ACCESS_TOKEN } from '@/common/config/axios';
+import HttpResponse from '@/common/models/httpResponse';
 
 interface LoginResponse {
   accessToken: string;
@@ -55,7 +55,7 @@ export const login = async (request: LoginRequest): Promise<HttpResponse> => {
  * ログアウト処理
  */
 export const logout = async (): Promise<void> => {
-  const token = sessionStorage.getItem('access_token');
+  const token = sessionStorage.getItem(ACCESS_TOKEN);
   if (!token) {
     console.error('トークンが見つかりません');
     return;
@@ -66,7 +66,7 @@ export const logout = async (): Promise<void> => {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
     });
-    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem(ACCESS_TOKEN);
   } catch (error) {
     console.error('ログアウトに失敗しました', error);
   }

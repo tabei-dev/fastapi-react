@@ -5,8 +5,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { RecoilRoot, RecoilEnv } from 'recoil';
 
-import AppTheme from '@/AppTheme';
-import LoginPage from '@/pages/LoginPage';
+import { SideMenuProvider } from '@/common/contexts/sideMenuContext';
+import Theme from '@/common/styles/theme';
+import SideMenuClass from '@/domain/modules/SideMenu';
+import LoginPage from '@/domain/pages/LoginPage';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import '@/App.css';
@@ -32,17 +34,20 @@ const App = (): JSX.Element => {
   //     }
   //   })();
   // }, []);
+  const sideMenu = new SideMenuClass();
 
   return (
-    <ThemeProvider theme={AppTheme}>
-      <CssBaseline />
-      <RecoilRoot>
-        <Router>
-          <Routes>
-            <Route index element={<LoginPage />} />
-          </Routes>
-        </Router>
-      </RecoilRoot>
+    <ThemeProvider theme={Theme}>
+      <SideMenuProvider value={sideMenu}>
+        <CssBaseline />
+        <RecoilRoot>
+          <Router>
+            <Routes>
+              <Route index element={<LoginPage />} />
+            </Routes>
+          </Router>
+        </RecoilRoot>
+      </SideMenuProvider>
     </ThemeProvider>
   );
 };

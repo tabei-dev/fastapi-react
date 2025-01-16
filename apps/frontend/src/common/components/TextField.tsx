@@ -1,7 +1,7 @@
 /**
  * TextField モジュールコンポーネント
- * Copyright (C) ITS Corporation. All Rights Reserved.
  */
+import { JSX } from 'react';
 import { Controller, Control, FieldValues, FieldPath, RegisterOptions } from 'react-hook-form';
 
 import { TextField as MuiTextField, SxProps, Theme } from '@mui/material';
@@ -16,7 +16,7 @@ type RHFProps<
   sx?: SxProps<Theme> | undefined;
   width?: number | undefined;
   label?: string | undefined;
-  maxLength?: number | undefined;
+  // maxLength?: number | undefined;
   controller: {
     control: Control<TFieldValues>;
     name: TName;
@@ -55,14 +55,14 @@ export const RHFTextField = <
   sx,
   width,
   label,
-  maxLength,
+  // maxLength,
   controller,
   disabled = false,
   passwordType = false,
   rows,
   error,
   onBlur,
-}: RHFProps<TFieldValues, TName>) => (
+}: RHFProps<TFieldValues, TName>): JSX.Element => (
   <Controller
     name={controller.name}
     control={controller.control}

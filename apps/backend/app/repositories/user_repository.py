@@ -19,11 +19,12 @@ class UserRepository:
 
         self._db = db
 
-    def authenticate(self, username: str, password: str) -> None:
+    def authenticate(self, username: str, password: str) -> User:
         '''
         ユーザー認証を行う
         :param username: str: ユーザ名
         :param password: str: パスワード
+        :return: User: ユーザ情報
         :raise ValueError: ユーザが見つからない場合
         :raise ValueError: パスワードが一致しない場合
         '''
@@ -31,8 +32,10 @@ class UserRepository:
         if not user:
             raise ValidationError(get_message('4001'), 'username')
 
-        if not user or not HashUtil().verify_password(password, user.password):
+        if not HashUtil().verify_password(password, user.password):
             raise ValidationError(get_message('4002'), 'password')
+
+        return user
 
     # def get_user(self, username: str) -> User:
     #     '''

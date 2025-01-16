@@ -50,7 +50,7 @@ declare module '@mui/material/Button' {
   }
 }
 
-const AppTheme = createTheme({
+const Theme = createTheme({
   typography: {
     fontSize: 12,
     fontFamily: [
@@ -180,4 +180,4 @@ const AppTheme = createTheme({
     },
   },
 });
-export default AppTheme;
+export default Theme;

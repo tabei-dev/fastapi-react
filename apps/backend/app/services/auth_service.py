@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from app.config.settings import settings
 from app.errors.validation_error import ValidationError
+from app.models.auth import Auth
 from app.repositories.message_repository import get_message
 from app.repositories.user_repository import UserRepository
 from app.utils.datetime import DateTimeUtil
@@ -26,21 +27,29 @@ class AuthService:
         '''
         self.redis = Redis.Redis(host='redis', port=settings.redis_port, db=0)
 
-    def authenticate(self, db: Session, username: str, password: str) -> str:
+    def authenticate(self, db: Session, username: str, password: str) -> Auth:
         '''
         ユーザー認証し、成功したらトークンを生成してこれを返します
         :param _db: Session: DBセッション
         :param username: str: ユーザ名
         :param password: str: パスワード
-        :return: str: トークン
+        :return: Auth: 認証情報
         :raise ValueError: ユーザが見つからない場合
         :raise ValueError: パスワードが一致しない場合
         '''
         user_repository = UserRepository(db)
-        user_repository.authenticate(username, password)
+        user = user_repository.authenticate(username, password)
 
         access_token = self.__create_access_token(username)
-        return access_token
+
+        auth = Auth(
+            access_token=access_token,
+            token_type="bearer",
+            username=user.username,
+            role_cls=user.role_cls,
+        )
+
+        return auth
 
     def verify_token(self, token: str) -> str:
         '''

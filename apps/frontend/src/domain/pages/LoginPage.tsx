@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 
 import { Container, Paper, Stack, Button } from '@mui/material';
 
-import { login } from '@/controllers/authController';
-import { RHFTextField } from '@/parts/TextField';
+import { RHFTextField } from '@/common/components/TextField';
+import { login } from '@/domain/controllers/authController';
 
 /**
  * ログインページ

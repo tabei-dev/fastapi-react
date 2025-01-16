@@ -10,10 +10,7 @@ from app.controllers.auth_controller import router as auth_router
 from app.errors.validation_error import ValidationError
 # from app.services.classification_service import classification_service
 # from app.services.message_service import message_service
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+from app.utils.logging import logger
 
 # @asynccontextmanager
 # async def lifespan(app: FastAPI):

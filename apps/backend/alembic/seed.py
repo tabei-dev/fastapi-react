@@ -16,16 +16,26 @@ def seed():
 
     db.add_all([
         User(
-            username="testuser1",
-            email="testuser1@examples.com",
-            password=hash.get_hashed_password("password1"),
+            username="admin",
+            email="admin@examples.com",
+            password=hash.get_hashed_password("admin0000"),
+            role_cls="00",
             from_date=datetime(2024, 12, 13),
             to_date=None,
         ),
         User(
-            username="testuser2",
-            email="testuser2@examples.com",
-            password=hash.get_hashed_password("password2"),
+            username="Kyoko Otonashi",
+            email="ikkoku00@examples.com",
+            password=hash.get_hashed_password("kyoko0000"),
+            role_cls="00",
+            from_date=datetime(2024, 12, 13),
+            to_date=None,
+        ),
+        User(
+            username="Yusaku Godai",
+            email="ikkoku05@examples.com",
+            password=hash.get_hashed_password("yusaku0000"),
+            role_cls="01",
             from_date=datetime(2024, 12, 13),
             to_date=None,
         ),

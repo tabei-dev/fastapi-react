@@ -13,6 +13,7 @@ class User(BaseModel):
     username: Mapped[str] = Column(String(60), nullable=False)
     email: Mapped[str] = Column(String(256), nullable=False)
     password: Mapped[str] = Column(String(256), nullable=False)
+    role_cls: Mapped[str] = Column(String(2), nullable=False)
     from_date: Mapped[datetime] = Column(DateTime, nullable=False)
     to_date: Mapped[datetime] = Column(DateTime, nullable=True, default=None)
     created_at: Mapped[datetime] = Column(DateTime, default=lambda: DateTimeUtil.now())
