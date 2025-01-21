@@ -28,12 +28,3 @@ class __Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file='settings.env')
 
 settings = __Settings()
-
-def get_assets_path() -> str:
-    '''
-    アセットディレクトリのパスを取得します
-    :return: str: アセットディレクトリのパス
-    '''
-    current_file_dir = os.path.dirname(os.path.abspath(__file__))
-    assets_path = os.path.join(current_file_dir, '..', '..', 'assets')
-    return assets_path

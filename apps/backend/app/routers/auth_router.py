@@ -38,16 +38,16 @@ async def login(
 
     return token
 
-@router.get("/users/me")
-async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
-    '''
-    ユーザー情報取得
-    :param token: str: トークン
-    :return: dict: レスポンス（ユーザー情報）
-    '''
-    username = auth_service.verify_token(token)
+# @router.get("/users/me")
+# async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
+#     '''
+#     ユーザー情報取得
+#     :param token: str: トークン
+#     :return: dict: レスポンス（ユーザー情報）
+#     '''
+#     username = auth_service.verify_token(token)
 
-    return {"username": username}
+#     return {"username": username}
 
 @router.post("/logout")
 async def logout(token: str = Depends(oauth2_scheme)) -> dict[str, str]:

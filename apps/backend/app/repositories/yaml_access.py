@@ -2,7 +2,17 @@ import os
 import yaml
 from functools import lru_cache
 from typing import Any
-from app.config.settings import get_assets_path
+# from app.config.settings import get_assets_path
+
+@lru_cache(maxsize=1)
+def __get_assets_path() -> str:
+    '''
+    アセットディレクトリのパスを取得します
+    :return: str: アセットディレクトリのパス
+    '''
+    current_file_dir = os.path.dirname(os.path.abspath(__file__))
+    assets_path = os.path.join(current_file_dir, '..', '..', 'assets')
+    return assets_path
 
 @lru_cache(maxsize=1)
 def __get_yaml_path(yaml_filename: str) -> str:
@@ -11,9 +21,7 @@ def __get_yaml_path(yaml_filename: str) -> str:
     :param yaml_filename: str: YAMLファイル名
     :return: str: YAMLファイルのパス
     '''
-    # current_file_dir = os.path.dirname(os.path.abspath(__file__))
-    # assets_path = os.path.join(current_file_dir, '..', '..', 'assets')
-    assets_path = get_assets_path()
+    assets_path = __get_assets_path()
     yaml_path = os.path.join(assets_path, yaml_filename)
     if not os.path.exists(yaml_path):
         # raise Exception(f"JSONファイル({json_filename})が見つかりませんでした")
@@ -24,7 +32,7 @@ def __get_yaml_path(yaml_filename: str) -> str:
 @lru_cache(maxsize=1)
 def get_yaml_data(yaml_filename: str) -> dict[str, Any]:
     '''
-    YAMLファイルを読み込み、JSONデータを取得します
+    YAMLファイルを読み込み、YAMLデータを取得します
     :param yaml_filename: str: YAMLファイル名
     :return: dict: YAMLデータ
     '''

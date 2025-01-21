@@ -1,8 +1,0 @@
-{
-  "editor.fontFamily": "PlemolJP",
-  "editor.fontSize": 15,
-  "editor.tabSize": 2,
-  "[python]": {
-    "editor.tabSize": 4
-  }
-}

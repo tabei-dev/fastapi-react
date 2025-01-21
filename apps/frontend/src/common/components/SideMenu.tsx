@@ -40,8 +40,8 @@ import {
 // import { AuthContext } from 'contexts/AuthContext';
 // import { useSetRecoilState } from 'recoil';
 
-import { ISideMenu } from '@/common/components/ISideMenu';
-import { ICategoryType, IPageType, IPageLinkType } from '@/common/config/types';
+// import { ISideMenu } from '@/common/components/ISideMenu';
+// import { ICategoryType, IPageType, IPageLinkType } from '@/common/config/types';
 import { useSideMenu } from '@/common/contexts/sideMenuContext';
 
 /** ドロワー幅 */
