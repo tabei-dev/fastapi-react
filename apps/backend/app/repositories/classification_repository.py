@@ -32,7 +32,7 @@ def __load_classifications_yaml() -> dict[ClassificationEnum, Classification]:
         )
     return classifications
 
-__classifications = __load_classifications_yaml()
+# __classifications = __load_classifications_yaml()
 
 def get_classification_details(classification_enum: Enum) -> dict[str, ClassificationDetail]:
     '''
@@ -40,7 +40,8 @@ def get_classification_details(classification_enum: Enum) -> dict[str, Classific
     :param classification_enum: Enum: 区分列挙型
     :return: dict[ClassificationEnum, ClassificationDetail]: 区分明細情報辞書
     '''
-    classification = __classifications.get(classification_enum.value)
+    classifications = __load_classifications_yaml()
+    classification = classifications.get(classification_enum.value)
     if classification:
         return classification.details
 

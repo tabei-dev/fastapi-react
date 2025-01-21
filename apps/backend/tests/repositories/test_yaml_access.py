@@ -28,7 +28,7 @@ def setup_and_teardown():
     # テスト終了後にYAMLファイルを削除
     os.remove(test_yaml_path)
 
-def test_get_yaml_data_is_successful():
+def test_get_yaml_data_success():
     expected_data = {
         'key1': 'value1',
         'key2': 'value2'
@@ -36,7 +36,7 @@ def test_get_yaml_data_is_successful():
     yaml_data = get_yaml_data(TEST_YAML_FILE)
     assert yaml_data == expected_data
 
-def test_get_yaml_data_is_unsuccessful():
+def test_get_yaml_data_failure():
     with pytest.raises(AssertionError) as excinfo:
         get_yaml_data(INVALID_YAML_FILE)
     assert f"YAMLファイル({INVALID_YAML_FILE})が見つかりませんでした" in str(excinfo.value)

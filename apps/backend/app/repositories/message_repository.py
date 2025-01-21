@@ -7,15 +7,13 @@ from app.models.message import Message
 from app.repositories.yaml_access import get_yaml_data
 
 @lru_cache(maxsize=1)
-def __load_massages_yaml() -> dict[str, Message]:
+def __load_messages_yaml() -> dict[str, Message]:
     '''
     massages.yamlを読み込み、メッセージ情報辞書を取得します
     :return: dict[Message]: メッセージ情報辞書
     '''
     yaml_data = get_yaml_data('messages.yaml')
     return {message['number']: Message(**message) for message in yaml_data['messages']}
-
-__messages = __load_massages_yaml()
 
 def get_message(number: str) -> str:
     '''
@@ -24,7 +22,8 @@ def get_message(number: str) -> str:
     :return: str: メッセージ
     :raise ValueError: メッセージが見つからない場合
     '''
-    message = __messages.get(number)
+    messages = __load_messages_yaml()
+    message = messages.get(number)
     if message:
         return message.message
 
