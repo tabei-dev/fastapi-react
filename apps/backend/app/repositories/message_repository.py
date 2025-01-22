@@ -4,7 +4,7 @@
 import yaml
 from functools import lru_cache
 from app.models.message import Message
-from app.repositories.yaml_access import get_yaml_data
+from app.utils.yaml_access import get_yaml_data
 
 @lru_cache(maxsize=1)
 def __load_messages_yaml() -> dict[str, Message]:

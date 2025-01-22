@@ -1,6 +1,6 @@
 import pytest
 import os
-from app.repositories.yaml_access import get_yaml_data
+from app.utils.yaml_access import get_yaml_data
 
 # テスト用のYAMLファイルのパス
 TEST_YAML_FILE = 'test.yaml'

@@ -2,7 +2,6 @@ import os
 import yaml
 from functools import lru_cache
 from typing import Any
-# from app.config.settings import get_assets_path
 
 @lru_cache(maxsize=1)
 def __get_assets_path() -> str:
@@ -24,8 +23,8 @@ def __get_yaml_path(yaml_filename: str) -> str:
     assets_path = __get_assets_path()
     yaml_path = os.path.join(assets_path, yaml_filename)
     if not os.path.exists(yaml_path):
-        # raise Exception(f"JSONファイル({json_filename})が見つかりませんでした")
         assert False, f"YAMLファイル({yaml_filename})が見つかりませんでした"
+        # raise Exception(f"JSONファイル({json_filename})が見つかりませんでした")
 
     return yaml_path
 

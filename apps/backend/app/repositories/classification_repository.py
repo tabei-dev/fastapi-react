@@ -5,7 +5,7 @@ from enum import Enum
 from functools import lru_cache
 from app.models.classification import ClassificationEnum, Classification, ClassificationDetail
 # from app.repositories.json_access import get_json_data
-from app.repositories.yaml_access import get_yaml_data
+from app.utils.yaml_access import get_yaml_data
 
 @lru_cache(maxsize=1)
 def __load_classifications_yaml() -> dict[ClassificationEnum, Classification]:
