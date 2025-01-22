@@ -34,7 +34,7 @@ def __load_classifications_yaml() -> dict[ClassificationEnum, Classification]:
 
 # __classifications = __load_classifications_yaml()
 
-def get_classification_details(classification_enum: Enum) -> dict[str, ClassificationDetail]:
+def get_classification_details(classification_enum: ClassificationEnum) -> dict[str, ClassificationDetail]:
     '''
     指定の区分列挙型の区分明細情報一覧を取得する
     :param classification_enum: Enum: 区分列挙型
@@ -48,7 +48,7 @@ def get_classification_details(classification_enum: Enum) -> dict[str, Classific
     # raise ValueError(f"区分列挙型({classification_enum.value})に該当する区分明細情報が見つかりませんでした")
     assert False, f"区分列挙型({classification_enum.value})に該当する区分明細情報が見つかりませんでした"
 
-def get_classification_detail(classification_enum: Enum, detail_number: str) -> ClassificationDetail:
+def get_classification_detail(classification_enum: ClassificationEnum, detail_number: str) -> ClassificationDetail:
     '''
     指定の区分列挙型と明細番号の区分明細情報を取得する
     :param classification_enum: Enum: 区分列挙型
