@@ -6,6 +6,7 @@ from sqlalchemy_utils import UUIDType
 from uuid import uuid4
 from app.models.base_model import BaseModel
 from app.utils.datetime import DateTimeUtil
+from app.utils.hash import HashUtil
 
 class User(BaseModel):
     __tablename__ = "users"
@@ -18,3 +19,11 @@ class User(BaseModel):
     to_date: Mapped[datetime] = Column(DateTime, nullable=True, default=None)
     created_at: Mapped[datetime] = Column(DateTime, default=lambda: DateTimeUtil.now())
     updated_at: Mapped[datetime] = Column(DateTime, default=lambda: DateTimeUtil.now(), onupdate=lambda: DateTimeUtil.now())
+
+    def verify_password(self, plain_password: str) -> bool:
+        '''
+        パスワードを検証します
+        :param plain_password: str: 検証するパスワード
+        :return: bool: パスワードが一致する場合はTrue
+        '''
+        return HashUtil().verify_password(plain_password, self.password)

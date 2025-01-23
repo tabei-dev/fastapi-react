@@ -6,7 +6,6 @@ class ClassificationService:
     '''
     区分情報サービス
     '''
-
     def __init__(self):
         '''
         コンストラクタ
@@ -35,12 +34,6 @@ class ClassificationService:
         :param classification_enum: Enum: 区分列挙型
         :return: dict[ClassificationEnum, ClassificationDetail]: 区分明細情報辞書
         '''
-        # classification = self.__classifications.get(classification_enum.value)
-        # if classification:
-        #     return classification.details
-
-        # # raise ValueError(f"区分列挙型({classification_enum.value})に該当する区分明細情報が見つかりませんでした")
-        # assert False, f"区分列挙型({classification_enum.value})に該当する区分明細情報が見つかりませんでした"
         return get_classification_details(self.__classifications, classification_enum)
 
     def get_classification_detail(self, classification_enum: ClassificationEnum, detail_number: str) -> ClassificationDetail:
@@ -50,13 +43,6 @@ class ClassificationService:
         :param detail_number: str: 明細番号
         :return: ClassificationDetail: 区分明細情報
         '''
-        # classification_details = self.get_classification_details(classification_enum)
-        # classification_detail = classification_details.get(detail_number)
-        # if classification_detail:
-        #     return classification_detail
-
-        # # raise ValueError(f"区分列挙型({classification_enum.value})の区分明細情報({detail_number})が見つかりませんでした")
-        # assert False, f"区分列挙型({classification_enum.value})の区分明細情報({detail_number})が見つかりませんでした"
         return get_classification_detail(self.__classifications, classification_enum, detail_number)
 
 classification_service = ClassificationService()
