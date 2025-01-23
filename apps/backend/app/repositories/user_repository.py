@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from app.errors.validation_error import ValidationError
 from app.models.user import User
-from app.repositories.message_repository import get_message
+from app.services.message_service import message_service
 from app.utils.hash import HashUtil
 
 class UserRepository:
@@ -30,10 +30,10 @@ class UserRepository:
         '''
         user = self._db.query(User).filter(User.username == username).first()
         if not user:
-            raise ValidationError(get_message('4001'), 'username')
+            raise ValidationError(message_service.get_message('4001'), 'username')
 
         if not HashUtil().verify_password(password, user.password):
-            raise ValidationError(get_message('4002'), 'password')
+            raise ValidationError(message_service.get_message('4002'), 'password')
 
         return user
 

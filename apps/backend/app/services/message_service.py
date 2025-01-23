@@ -1,4 +1,5 @@
 from app.models.message import Message
+from app.repositories.message_repository import get_message
 from app.utils.yaml_access import get_yaml_data
 
 class MessageService:
@@ -20,12 +21,13 @@ class MessageService:
         :return: str: メッセージ
         :raise ValueError: メッセージが見つからない場合
         '''
-        # messages = __load_messages_yaml()
-        message = self.__messages.get(number)
-        if message:
-            return message.message
+        # # messages = __load_messages_yaml()
+        # message = self.__messages.get(number)
+        # if message:
+        #     return message.message
 
-        assert False, f"メッセージ番号({number})に該当するメッセージが見つかりませんでした"
-        # raise ValueError(f"メッセージ番号({number})に該当するメッセージが見つかりませんでした")
+        # assert False, f"メッセージ番号({number})に該当するメッセージが見つかりませんでした"
+        # # raise ValueError(f"メッセージ番号({number})に該当するメッセージが見つかりませんでした")
+        return get_message(self.__messages, number)
 
 message_service = MessageService()

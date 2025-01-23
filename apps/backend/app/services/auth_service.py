@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from app.config.settings import settings
 from app.errors.validation_error import ValidationError
 from app.models.auth import Auth
-from app.repositories.message_repository import get_message
+from app.services.message_service import message_service
 from app.repositories.user_repository import UserRepository
 from app.utils.datetime import DateTimeUtil
 
@@ -65,13 +65,13 @@ class AuthService:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
             username: str = payload.get("sub")
             if username is None:
-                raise ValidationError(get_message('4003'), 'username')
+                raise ValidationError(message_service.get_message('4003'), 'username')
         except jwt.PyJWTError:
-            raise ValidationError(get_message('4003'), 'username')
+            raise ValidationError(message_service.get_message('4003'), 'username')
 
         # トークンがブラックリストにあるか確認
         if self.redis.get(token):
-            raise ValidationError(get_message('4003'), 'username')
+            raise ValidationError(message_service.get_message('4003'), 'username')
 
         return username
 
