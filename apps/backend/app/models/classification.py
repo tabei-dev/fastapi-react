@@ -5,8 +5,10 @@ from typing_extensions import Annotated
 class ClassificationEnum(Enum):
     '''
     区分の列挙型
+    :param NONE: str: 未設定
     :param ROLE: str: 権限区分
     '''
+    NONE = 'None'
     ROLE = 'Role'
 
 class ClassificationDetail(BaseModel):
