@@ -1,5 +1,5 @@
 import pytest
-from app.repositories.message_repository import get_message
+from app.managers.message_manager import get_message
 from app.models.message import Message
 
 def test_get_message_success():
@@ -20,8 +20,12 @@ def test_get_message_not_found():
         "1002": Message(number="1002", message="これは別のテストメッセージです。")
     }
     number = "9999"
+
+    result = get_message(messages, number)
     
-    with pytest.raises(AssertionError) as exc_info:
-        get_message(messages, number)
+    assert result == ""
     
-    assert str(exc_info.value) == "メッセージ番号(9999)に該当するメッセージが見つかりませんでした"
+    # with pytest.raises(AssertionError) as exc_info:
+    #     get_message(messages, number)
+    
+    # assert str(exc_info.value) == "メッセージ番号(9999)に該当するメッセージが見つかりませんでした"

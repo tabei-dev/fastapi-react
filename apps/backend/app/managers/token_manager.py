@@ -28,7 +28,7 @@ class TokenManager:
     def verify_token(self, token: str) -> str:
         '''
         トークンを検証します
-        検証に成功した場合、ユーザ名を返します
+        検証に成功した場合、ユーザー名を返します
         :param token: str: トークン
         :return: str: ユーザー名
         :raise ValueError: トークンが不正な場合
@@ -48,13 +48,13 @@ class TokenManager:
 
         return username
 
-    def has_token_on_blacklist(self, token: str) -> bool:
-        '''
-        トークンがブラックリストに存在するかを確認します
-        :param token: str: トークン
-        :return: bool: トークンが存在する場合はTrue
-        '''
-        return self.redis.exists(token)
+    # def has_token_on_blacklist(self, token: str) -> bool:
+    #     '''
+    #     トークンがブラックリストに存在するかを確認します
+    #     :param token: str: トークン
+    #     :return: bool: トークンが存在する場合はTrue
+    #     '''
+    #     return self.redis.exists(token)
     
     def add_token_to_blacklist(self, token: str) -> None:
         '''
@@ -66,7 +66,7 @@ class TokenManager:
     def create_access_token(self, username: str) -> str:
         '''
         トークンを生成します
-        :param username: str: ユーザ名
+        :param username: str: ユーザー名
         :return: str: トークン
         '''
         expire = self.__create_expire()

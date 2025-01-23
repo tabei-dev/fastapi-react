@@ -9,6 +9,9 @@ from app.utils.datetime import DateTimeUtil
 from app.utils.hash import HashUtil
 
 class User(BaseModel):
+    '''
+    ユーザー情報
+    '''
     __tablename__ = "users"
     uuid: Mapped[str] = Column(UUIDType(binary=False), primary_key=True, default=uuid4)
     username: Mapped[str] = Column(String(60), nullable=False)

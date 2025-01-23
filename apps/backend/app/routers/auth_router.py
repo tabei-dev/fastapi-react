@@ -56,7 +56,6 @@ async def logout(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
     :param token: str: トークン
     :return: dict: レスポンス
     '''
-    # トークンをブラックリストに追加
     auth_service.revoke_token(token)
 
     return {"msg": "Successfully logged out"}
