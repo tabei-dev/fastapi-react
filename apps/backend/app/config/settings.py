@@ -1,9 +1,6 @@
 import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
-import logging
-
-logger = logging.getLogger(__name__)
 
 # .envファイルを読み込む
 load_dotenv()

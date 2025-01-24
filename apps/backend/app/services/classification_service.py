@@ -1,6 +1,11 @@
-from app.models.classification import ClassificationEnum, Classification, ClassificationDetail
-from app.managers.classification_manager import create_classifications, get_classification, get_classification_detail
-# from app.utils.yaml_access import get_yaml_data
+from app.models.classification import (
+    ClassificationEnum,
+    Classification,
+    ClassificationDetail,
+    get_classification,
+    get_classification_detail,
+)
+from app.utils.yaml_reader import get_yaml_data
 
 class ClassificationService:
     '''
@@ -10,7 +15,30 @@ class ClassificationService:
         '''
         コンストラクタ
         '''
-        self.__classifications = create_classifications()
+        self.__classifications = self.__create_classifications()
+
+    def __create_classifications(self) -> dict[str, Classification]:
+        '''
+        区分情報を生成します
+        :return: dict[str, Classification]: 区分辞書
+        '''
+        yaml_data = get_yaml_data('classifications.yaml')
+        classifications = {}
+        for classification in yaml_data['classifications']:
+            classification_name = ClassificationEnum[classification['classification_name']]
+            details = {
+                detail['detail_number']: ClassificationDetail(
+                    detail_number=detail['detail_number'],
+                    detail_name=detail['detail_name'],
+                    detail_jp_name=detail['detail_jp_name']
+                )
+                for detail in classification['details']
+            }
+            classifications[classification_name] = Classification(
+                classification_enum=classification_name,
+                details=details
+            )
+        return classifications
 
     def get_classification_details(self, classification_enum: ClassificationEnum) -> dict[str, ClassificationDetail]:
         '''

@@ -1,17 +1,24 @@
-from app.models.message import Message
-from app.managers.message_manager import create_messages, get_message
-from app.utils.yaml_access import get_yaml_data
+from app.models.message import Message, get_message
+from app.utils.yaml_reader import get_yaml_data
 
 class MessageService:
     '''
     メッセージ情報サービス
     '''
-
     def __init__(self):
         '''
         コンストラクタ
         '''
-        self.__messages = create_messages()
+        self.__messages = self.__create_messages()
+
+    def __create_messages(self) -> dict[str, Message]:
+        '''
+        メッセージ情報を生成します
+        :return: dict[str, Message]: メッセージ辞書
+        '''
+        yaml_data = get_yaml_data('messages.yaml')
+        messages = {message['number']: Message(**message) for message in yaml_data['messages']}
+        return messages
 
     def get_message(self, number: str) -> str:
         '''

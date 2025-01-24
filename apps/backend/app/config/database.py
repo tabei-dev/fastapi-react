@@ -3,13 +3,9 @@ from sqlalchemy.orm import sessionmaker, Session
 from app.config.settings import settings
 
 engine = create_engine(settings.database_url)
-'''
-データベースのエンジン
-'''
+'''データベースのエンジン'''
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-'''
-データベースのセッション
-'''
+'''データベースのセッション'''
 
 def get_db() -> Session: # type: ignore
     '''

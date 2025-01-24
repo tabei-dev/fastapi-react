@@ -1,3 +1,6 @@
+'''
+YAMLファイルの読み込みを行うユーティリティ
+'''
 import os
 import yaml
 from functools import lru_cache
