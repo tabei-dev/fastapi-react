@@ -2,16 +2,14 @@ import redis as Redis
 from sqlalchemy.orm import Session
 from app.config.settings import settings
 from app.errors.validation_error import ValidationError
-from app.models.auth import Auth, create_auth
+from app.models.auth import Auth
+from app.models.token import Token
 from app.models.user import User
-from app.services.message_service import message_service
-from app.utils.token import (
-    create_access_token,
-    verify_token,
-    has_token_on_blacklist,
-    TOKEN_TYPE,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
-)
+from app.managers.message_manager import get_message
+
+from app.models.classification import ClassificationEnum
+from app.managers.classification_manager import get_classification_details
+from app.utils.logging import logger
 
 class AuthService:
     '''
@@ -35,38 +33,38 @@ class AuthService:
         '''
         user = db.query(User).filter(User.username == username).first()
         if not user:
-            raise ValidationError(message_service.get_message('4001'), 'username')
+            raise ValidationError(get_message('4001'), 'username')
 
         if not user.verify_password(password):
-            raise ValidationError(message_service.get_message('4002'), 'password')
+            raise ValidationError(get_message('4002'), 'password')
 
-        access_token = create_access_token(username)
+        token = Token.create_token_by_username(username)
 
-        auth = create_auth(
-            access_token,
-            TOKEN_TYPE,
-            user.username,
-            user.email,
-            user.role_cls,
+        auth = Auth(
+            username=user.username,
+            email=user.email,
+            role_cls=user.role_cls,
+            token_type=token.token_type,
+            access_token=token.access_token,
         )
+
+        result = get_classification_details(ClassificationEnum.ROLE)
+        logger.debug('区分情報１: %s', result)
 
         return auth
 
-    def verify_token(self, token: str) -> str:
+    def verify_token(self, access_token: str) -> str:
         '''
         トークンを検証します
         検証に成功した場合、ユーザー名を返します
-        :param token: str: トークン
+        :param access_token: str: トークン
         :return: str: ユーザー名
-        :raise ValueError: トークンが不正な場合
-        :raise ValueError: トークンがブラックリストにある場合
+        :raise ValidationError: 検証に失敗した場合
         '''
-        username = verify_token(token)
+        token = Token.create_token_by_token(access_token)
+        username = token.verify_token(self.redis)
         if not username:
-            raise ValidationError(message_service.get_message('4003'), 'username')
-
-        if not has_token_on_blacklist(self.redis, token):
-            raise ValidationError(message_service.get_message('4003'), 'username')
+            raise ValidationError(get_message('4003'), 'username')
 
         return username
 
@@ -76,6 +74,6 @@ class AuthService:
         :param token: str: トークン
         '''
         # トークンをブラックリストに追加
-        self.redis.set(token, "revoked", ex=ACCESS_TOKEN_EXPIRE_MINUTES * 60)
+        self.redis.set(token, "revoked", ex=Token.ACCESS_TOKEN_EXPIRE_MINUTES * 60)
 
 auth_service = AuthService()

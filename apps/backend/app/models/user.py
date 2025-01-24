@@ -6,7 +6,7 @@ from sqlalchemy_utils import UUIDType
 from uuid import uuid4
 from app.models.base_model import BaseModel
 from app.utils.datetime import DateTimeUtil
-from app.utils.hash import HashUtil
+from app.utils.hash import verify_password
 
 class User(BaseModel):
     '''
@@ -29,4 +29,4 @@ class User(BaseModel):
         :param plain_password: str: 検証するパスワード
         :return: bool: パスワードが一致する場合はTrue
         '''
-        return HashUtil().verify_password(plain_password, self.password)
+        return verify_password(plain_password, self.password)

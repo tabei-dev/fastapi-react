@@ -14,6 +14,3 @@ def test_verify_password():
 
     assert verify_password(password, hashed_password)
     assert not verify_password("wrongpassword", hashed_password)
-
-# if __name__ == "__main__":
-#     pytest.main()

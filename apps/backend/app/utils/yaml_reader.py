@@ -6,7 +6,7 @@ import yaml
 from functools import lru_cache
 from typing import Any
 
-@lru_cache(maxsize=1)
+# @lru_cache(maxsize=1)
 def __get_assets_path() -> str:
     '''
     アセットディレクトリのパスを取得します
@@ -16,7 +16,7 @@ def __get_assets_path() -> str:
     assets_path = os.path.join(current_file_dir, '..', '..', 'assets')
     return assets_path
 
-@lru_cache(maxsize=1)
+# @lru_cache(maxsize=1)
 def __get_yaml_path(yaml_filename: str) -> str:
     '''
     YAMLファイルのパスを取得します
@@ -31,7 +31,7 @@ def __get_yaml_path(yaml_filename: str) -> str:
 
     return yaml_path
 
-@lru_cache(maxsize=1)
+# @lru_cache(maxsize=1)
 def get_yaml_data(yaml_filename: str) -> dict[str, Any]:
     '''
     YAMLファイルを読み込み、YAMLデータを取得します
