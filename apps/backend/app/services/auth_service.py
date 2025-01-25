@@ -7,10 +7,6 @@ from app.models.token import Token
 from app.models.user import User
 from app.managers.message_manager import get_message
 
-from app.models.classification import ClassificationEnum
-from app.managers.classification_manager import get_classification_details
-from app.utils.logging import logger
-
 class AuthService:
     '''
     認証サービスクラス
@@ -47,10 +43,6 @@ class AuthService:
             token_type=token.token_type,
             access_token=token.access_token,
         )
-
-        result = get_classification_details(ClassificationEnum.ROLE)
-        logger.debug('区分情報１: %s', result)
-
         return auth
 
     def verify_token(self, access_token: str) -> str:

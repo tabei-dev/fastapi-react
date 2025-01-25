@@ -8,7 +8,7 @@ import { RecoilRoot, RecoilEnv } from 'recoil';
 import { SideMenuProvider } from '@/common/contexts/sideMenuContext';
 import Theme from '@/common/styles/theme';
 import SideMenu from '@/domain/modules/SideMenu';
-import LoginPage from '@/domain/pages/LoginPage';
+import Login from '@/domain/pages/Login';
 import Menu from '@/domain/pages/Menu';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -44,7 +44,7 @@ const App = (): JSX.Element => {
         <RecoilRoot>
           <Router>
             <Routes>
-              <Route index element={<LoginPage />} />
+              <Route index element={<Login />} />
               <Route path="menu" element={<Menu />} />
             </Routes>
           </Router>

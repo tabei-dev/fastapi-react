@@ -30,32 +30,3 @@ class Classification(BaseModel):
     '''
     classification_enum: ClassificationEnum
     details: dict[str, ClassificationDetail]
-
-# def get_classification(
-#         classifications: dict[str, Classification],
-#         classification_enum: ClassificationEnum
-#     ) -> Classification | None:
-#     '''
-#     指定の区分列挙型の区分情報を取得する
-#     :param classifications: dict[str, Classification]: 区分情報辞書
-#     :param classification_enum: Enum: 区分列挙型
-#     :return: Classification | None: 区分情報
-#     '''
-#     return classifications.get(classification_enum.value)
-
-# def get_classification_detail(
-#         classifications: dict[str, Classification],
-#         classification_enum: ClassificationEnum, detail_number: str
-#     ) -> ClassificationDetail | None:
-#     '''
-#     指定の区分列挙型と明細番号の区分明細情報を取得する
-#     :param classifications: dict[str, Classification]: 区分情報辞書
-#     :param classification_enum: Enum: 区分列挙型
-#     :param detail_number: str: 明細番号
-#     :return: ClassificationDetail: 区分明細情報
-#     '''
-#     classification = get_classification(classifications, classification_enum)
-#     if classification:
-#         return classification.details.get(detail_number)
-
-#     return None

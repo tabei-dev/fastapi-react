@@ -1,5 +1,4 @@
 import jwt
-# from pydantic import BaseModel
 from redis import Redis
 from datetime import datetime, timedelta
 from app.config.settings import settings

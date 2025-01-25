@@ -15,7 +15,7 @@ import authService from '@/domain/services/authService';
  * ログインページ
  * @returns {JSX.Element} JSX.Element
  */
-const LoginPage = (): JSX.Element => {
+const Login = (): JSX.Element => {
   const { control, handleSubmit, setError } = useForm({
     mode: 'onBlur',
     reValidateMode: 'onChange',
@@ -79,4 +79,4 @@ const LoginPage = (): JSX.Element => {
     </Container>
   );
 };
-export default LoginPage;
+export default Login;
