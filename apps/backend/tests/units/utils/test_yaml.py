@@ -1,4 +1,4 @@
-from app.utils.yaml_reader import get_yaml_data
+from app.utils.yaml import get_yaml_data
 
 def test_get_messages_yaml_data_success():
     yaml_data = get_yaml_data('messages.yaml')

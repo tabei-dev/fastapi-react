@@ -1,5 +1,5 @@
 from app.models.message import Message
-from app.utils.yaml_reader import get_yaml_data
+from app.utils.yaml import get_yaml_data
 
 class MessageManager:
     '''

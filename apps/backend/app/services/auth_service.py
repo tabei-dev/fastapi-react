@@ -6,6 +6,7 @@ from app.models.auth import Auth
 from app.models.token import Token
 from app.models.user import User
 from app.managers.message_manager import get_message
+from app.utils.hash import verify_password
 
 class AuthService:
     '''
@@ -27,11 +28,12 @@ class AuthService:
         :raise ValidationError: ユーザーが見つからない場合
         :raise ValidationError: パスワードが一致しない場合
         '''
-        user = db.query(User).filter(User.username == username).first()
+        # user = db.query(User).filter(User.username == username).first()
+        user = db.query(User.username, User.password, User.email, User.role_cls).filter(User.username == username).first()
         if not user:
             raise ValidationError(get_message('4001'), 'username')
 
-        if not user.verify_password(password):
+        if not verify_password(password, user.password):
             raise ValidationError(get_message('4002'), 'password')
 
         token = Token.create_token_by_username(username)

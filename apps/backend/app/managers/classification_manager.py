@@ -3,8 +3,8 @@ from app.models.classification import (
     Classification,
     ClassificationDetail,
 )
-from app.utils.yaml_reader import get_yaml_data
 from app.models.classification import ClassificationEnum
+from app.utils.yaml import get_yaml_data
 
 class ClassificationManager:
     '''
