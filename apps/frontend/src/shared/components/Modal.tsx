@@ -8,8 +8,8 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import { Stack, Box } from '@mui/material';
 import { atom, useRecoilState } from 'recoil';
 
-import { AlertInfo } from '@/common/components/Alertbar';
-import { PageNameType } from '@/common/config/consts';
+import { AlertInfo } from '@/shared/components/Alertbar';
+import { PageNameType } from '@/shared/config/consts';
 
 /**
  * 表示中モーダル一覧

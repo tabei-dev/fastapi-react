@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 
-import { ISideMenu } from '@/common/components/ISideMenu';
-import { EMPTY, Empty } from '@/common/config/consts';
+import { ISideMenu } from '@/shared/components/ISideMenu';
+import { EMPTY, Empty } from '@/shared/config/consts';
 
 const SideMenuContext = createContext<ISideMenu | Empty>(EMPTY);
 

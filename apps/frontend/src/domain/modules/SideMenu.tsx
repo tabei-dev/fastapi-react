@@ -6,8 +6,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import { ListSubheader, ListItemIcon, ListItemText, Collapse, List } from '@mui/material';
 
-import { ISideMenu } from '@/common/components/ISideMenu';
-import { ListItemStyle, ListItemButtonStyle } from '@/common/styles/sideMenu';
+import { ISideMenu } from '@/shared/components/ISideMenu';
+import { ListItemStyle, ListItemButtonStyle } from '@/shared/styles/sideMenu';
 import { PAGE_LINKS } from '@/domain/config/consts';
 import authAPI from '@/domain/services/authService';
 

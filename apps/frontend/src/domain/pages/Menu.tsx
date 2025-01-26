@@ -1,23 +1,18 @@
-import { useEffect } from 'react';
+import { JSX } from 'react';
 
-import { useSetRecoilState } from 'recoil';
-
-import Page from '@/common/components/Page';
-import { selectedCategoryAndPageState } from '@/common/recoil/recoil';
 import { PAGES } from '@/domain/config/consts';
+import Page from '@/shared/components/Page';
+import useCategoryAndPage from '@/shared/hooks/useCategoryAndPage';
 
-const Menu = () => {
-  const setSelectedCategoryAndPage = useSetRecoilState(selectedCategoryAndPageState);
-
-  useEffect(() => {
-    setSelectedCategoryAndPage({
-      category: '',
-      page: PAGES.MENU,
-    });
-  }, [setSelectedCategoryAndPage]);
+/**
+ * メニューページ
+ * @returns {JSX.Element} JSX.Element
+ */
+const Menu = (): JSX.Element => {
+  useCategoryAndPage({ category: '', page: PAGES.MENU });
 
   return (
-    <Page page={PAGES.MENU}>
+    <Page>
       <h1>Menu</h1>
     </Page>
   );

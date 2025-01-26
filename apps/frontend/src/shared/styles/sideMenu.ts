@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ListItemButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-import { STYLE } from '@/common/config/consts';
+import { STYLE } from '@/shared/config/consts';
 
 /**
  * サイドメニューのリストアイテムスタイル

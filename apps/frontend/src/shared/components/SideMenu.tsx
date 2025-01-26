@@ -24,6 +24,7 @@ import {
   ListItemButton,
   Collapse,
 } from '@mui/material';
+import { useAtomValue } from 'jotai';
 // import { styled } from '@mui/material/styles';
 // import {
 //   STYLE,
@@ -42,7 +43,8 @@ import {
 
 // import { ISideMenu } from '@/common/components/ISideMenu';
 // import { ICategoryType, IPageType, IPageLinkType } from '@/common/config/types';
-import { useSideMenu } from '@/common/contexts/sideMenuContext';
+import { useSideMenu } from '@/shared/contexts/sideMenuContext';
+import { selectedCategoryAndPageState } from '@/shared/jotai/jotai';
 
 /** ドロワー幅 */
 export const DRAWER_WIDTH = 250 as const;
@@ -54,8 +56,8 @@ export const DRAWER_WIDTH = 250 as const;
 type Props = {
   // selectedSubMenu?: ICategoryType | null;
   // selectedPage?: IPageType | null;
-  selectedSubMenu?: string | undefined;
-  selectedPage?: string | undefined;
+  // selectedSubMenu?: string | undefined;
+  // selectedPage?: string | undefined;
   sideMenuOpen: boolean;
   setSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children?: ReactNode;
@@ -70,12 +72,13 @@ type Props = {
  * @returns {JSX.Element} JSX.Element
  */
 const SideMenu = ({
-  selectedCategory = undefined,
-  selectedPage = undefined,
+  // selectedCategory = undefined,
+  // selectedPage = undefined,
   sideMenuOpen,
   setSideMenuOpen,
 }: Props): JSX.Element => {
   const sideMenu = useSideMenu();
+  const selectedCategoryAndPage = useAtomValue(selectedCategoryAndPageState);
   // // ListItemスタイル
   // const StyListItem = styled('div')({
   //   borderBottom: '1px solid #d8d8d8',
@@ -246,7 +249,7 @@ const SideMenu = ({
                   </Card>
                 </Link>
                 <Box sx={{ ml: 'auto' }}>
-                  {selectedPage && (
+                  {selectedCategoryAndPage.page && (
                     <IconButton onClick={() => setSideMenuOpen(false)}>
                       <ChevronLeftIcon />
                     </IconButton>

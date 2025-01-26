@@ -7,30 +7,33 @@ import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 // import { AuthContext } from 'contexts/AuthContext';
-import { useRecoilValue } from 'recoil';
+// import { useRecoilValue } from 'recoil';
 
+// import { selectedCategoryAndPageState } from '@/shared/recoil/recoil';
 // import Alertbar from '@/common/components/Alertbar';
-import Breadcrumb from '@/common/components/Breadcrumb';
-import { OpenModalList } from '@/common/components/Modal';
-import SideMenu, { DRAWER_WIDTH } from '@/common/components/SideMenu';
+import Breadcrumb from '@/shared/components/Breadcrumb';
+import { OpenModalList } from '@/shared/components/Modal';
+import SideMenu, { DRAWER_WIDTH } from '@/shared/components/SideMenu';
 // import { ICategoryType, IPageType } from '@/common/config/types';
 
 type Props = {
   // category?: ICategoryType | null;
   // page?: IPageType | null;
-  category?: string | undefined;
-  page?: string | undefined;
+  // category?: string | undefined;
+  // page?: string | undefined;
   children: ReactNode;
 };
 
 /**
  * ページ
- * @param Props.subMenu サブメニュー
- * @param Props.page ページ
- * @param Props.children 子ノード
+ * @param subMenu サブメニュー
+ * @param page ページ
+ * @param children 子ノード
  * @returns {JSX.Element} JSX.Element
  */
-const Page = ({ category = undefined, page = undefined, children }: Props): JSX.Element => {
+//const Page = ({ category = undefined, page = undefined, children }: Props): JSX.Element => {
+const Page = ({ children }: Props): JSX.Element => {
+  // const selectedCategoryAndPage = useRecoilValue(selectedCategoryAndPageState);
   // 認証情報
   // const { setAuth, lastTime, setLastTime } = useContext(AuthContext);
   // サイドメニュー開閉フラグ
@@ -100,9 +103,9 @@ const Page = ({ category = undefined, page = undefined, children }: Props): JSX.
     <Box sx={{ display: 'flex' }}>
       {/* サイドメニュー */}
       <SideMenu
-        selectedSubMenu={category}
-        // homePageLink={category}
-        selectedPage={page}
+        // selectedSubMenu={selectedCategoryAndPage.category}
+        // // homePageLink={category}
+        // selectedPage={selectedCategoryAndPage.page}
         sideMenuOpen={sideMenuOpen}
         setSideMenuOpen={setSideMenuOpen}
       />
@@ -125,8 +128,8 @@ const Page = ({ category = undefined, page = undefined, children }: Props): JSX.
       >
         {/* パンくずリスト */}
         <Breadcrumb
-          category={category}
-          page={page}
+          // category={selectedCategoryAndPage.category}
+          // page={selectedCategoryAndPage.page}
           sideMenuOpen={sideMenuOpen}
           setSideMenuOpen={setSideMenuOpen}
         />

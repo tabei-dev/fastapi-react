@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Paper, Stack, Button } from '@mui/material';
 // import { useSetRecoilState } from 'recoil';
 
-import { RHFTextField } from '@/common/components/TextField';
-import ValidationError from '@/common/models/validationError';
 import { PAGE_LINKS } from '@/domain/config/consts';
 import authService from '@/domain/services/authService';
+import { RHFTextField } from '@/shared/components/TextField';
+import ValidationError from '@/shared/models/validationError';
 
 /**
  * ログインページ

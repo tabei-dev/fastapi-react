@@ -1,10 +1,10 @@
 // import { useSetRecoilState } from 'recoil';
 
-import axios, { isAxiosError, ACCESS_TOKEN } from '@/common/config/axios';
-// import HttpResponse from '@/common/models/httpResponse';
-import { EMPTY, Empty } from '@/common/config/consts';
-import ValidationError from '@/common/models/validationError';
 import Auth from '@/domain/models/auth';
+import axios, { isAxiosError, ACCESS_TOKEN } from '@/shared/config/axios';
+// import HttpResponse from '@/common/models/httpResponse';
+import { EMPTY, Empty } from '@/shared/config/consts';
+import ValidationError from '@/shared/models/validationError';
 // import { authState } from '@/domain/recoil/recoil';
 
 interface LoginResponse {

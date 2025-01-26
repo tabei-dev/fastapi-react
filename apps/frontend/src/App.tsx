@@ -3,19 +3,19 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import { RecoilRoot, RecoilEnv } from 'recoil';
+// import { RecoilRoot, RecoilEnv } from 'recoil';
 
-import { SideMenuProvider } from '@/common/contexts/sideMenuContext';
-import Theme from '@/common/styles/theme';
 import SideMenu from '@/domain/modules/SideMenu';
 import Login from '@/domain/pages/Login';
 import Menu from '@/domain/pages/Menu';
+import { SideMenuProvider } from '@/shared/contexts/sideMenuContext';
+import Theme from '@/shared/styles/theme';
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import '@/App.css';
 // import axios from '@/config/axios';
 
-RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+// RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
 /**
  *
@@ -41,14 +41,14 @@ const App = (): JSX.Element => {
     <ThemeProvider theme={Theme}>
       <SideMenuProvider value={sideMenu}>
         <CssBaseline />
-        <RecoilRoot>
-          <Router>
-            <Routes>
-              <Route index element={<Login />} />
-              <Route path="menu" element={<Menu />} />
-            </Routes>
-          </Router>
-        </RecoilRoot>
+        {/* <RecoilRoot> */}
+        <Router>
+          <Routes>
+            <Route index element={<Login />} />
+            <Route path="menu" element={<Menu />} />
+          </Routes>
+        </Router>
+        {/* </RecoilRoot> */}
       </SideMenuProvider>
     </ThemeProvider>
   );
