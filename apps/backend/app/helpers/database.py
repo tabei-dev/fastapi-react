@@ -1,19 +1,19 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-from app.config.settings import settings
+from app.helpers.settings import settings
 
-engine = create_engine(settings.database_url)
+__engine = create_engine(settings.DATABASE_URL)
 '''データベースのエンジン'''
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+session_local = sessionmaker(autocommit=False, autoflush=False, bind=__engine)
 '''データベースのセッション'''
 
-def get_db() -> Session: # type: ignore
+def get_database() -> Session: # type: ignore
     '''
     データベースのセッションを取得
     :return: Session: データベースのセッション
     '''
-    db = SessionLocal()
+    database = session_local()
     try:
-        yield db
+        yield database
     finally:
-        db.close()
+        database.close()

@@ -1,8 +1,8 @@
 import jwt
 from redis import Redis
 from datetime import datetime, timedelta
-from app.config.settings import settings
-from app.utils.datetime import DateTimeUtil
+from app.helpers.settings import settings
+from app.helpers.datetime import get_now
 
 class Token:
     '''
@@ -10,11 +10,11 @@ class Token:
     :param access_token: str: トークン
     :param token_type: str: トークンの種類
     '''
-    SECRET_KEY = settings.secret_key
+    SECRET_KEY = settings.SECRET_KEY
     '''シークレットキー'''
     ALGORITHM = "HS256"
     '''アルゴリズム'''
-    ACCESS_TOKEN_EXPIRE_MINUTES = int(settings.access_token_expire_minutes)
+    ACCESS_TOKEN_EXPIRE_MINUTES = int(settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     '''トークンの有効期限(分)'''
     TOKEN_TYPE = "bearer"
     '''トークンの種類'''
@@ -96,6 +96,6 @@ class Token:
         '''
         expires_delta = timedelta(minutes=Token.ACCESS_TOKEN_EXPIRE_MINUTES)
         if expires_delta:
-            return DateTimeUtil.now() + expires_delta
+            return get_now() + expires_delta
         else:
-            return DateTimeUtil.now() + timedelta(minutes=15)
+            return get_now() + timedelta(minutes=15)

@@ -5,18 +5,18 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from datetime import datetime
-from app.config.database import SessionLocal
+from app.helpers.database import session_local
+from app.helpers.hash import to_hashed_password
 from app.models.user import User
-from app.utils.hash import get_hashed_password
 
 def seed():
-    db = SessionLocal()
+    database = session_local()
 
-    db.add_all([
+    database.add_all([
         User(
             username="admin",
             email="admin@examples.com",
-            password=get_hashed_password("admin0000"),
+            password=to_hashed_password("admin0000"),
             role_cls="00",
             from_date=datetime(2024, 12, 13),
             to_date=None,
@@ -24,7 +24,7 @@ def seed():
         User(
             username="Kyoko Otonashi",
             email="ikkoku00@examples.com",
-            password=get_hashed_password("kyoko0000"),
+            password=to_hashed_password("kyoko0000"),
             role_cls="00",
             from_date=datetime(2024, 12, 13),
             to_date=None,
@@ -32,15 +32,15 @@ def seed():
         User(
             username="Yusaku Godai",
             email="ikkoku05@examples.com",
-            password=get_hashed_password("yusaku0000"),
+            password=to_hashed_password("yusaku0000"),
             role_cls="01",
             from_date=datetime(2024, 12, 13),
             to_date=None,
         ),
     ])
 
-    db.commit()
-    db.close()
+    database.commit()
+    database.close()
 
 if __name__ == "__main__":
     seed()

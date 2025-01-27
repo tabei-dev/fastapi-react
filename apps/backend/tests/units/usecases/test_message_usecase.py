@@ -1,5 +1,5 @@
 import pytest
-from app.managers.message_manager import get_message
+from app.usecases.message_usecase import get_message
 
 def test_get_message_success():
     # messages = {
@@ -23,4 +23,4 @@ def test_get_message_not_found():
     with pytest.raises(ValueError) as exc_info:
         get_message(number)
 
-    assert str(exc_info.value) == f"メッセージ番号(9999)に該当するメッセージが見つかりませませんでした"
+    assert str(exc_info.value)

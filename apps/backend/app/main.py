@@ -5,12 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 # from pydantic import ValidationError
 # from app.config.database import connect_db, close_db
-from app.config.settings import settings
+from app.helpers.logging import logger
+from app.helpers.settings import settings
 from app.routers.auth_router import router as auth_router
 from app.errors.validation_error import ValidationError
 # from app.services.classification_service import classification_service
 # from app.services.message_service import message_service
-from app.utils.logging import logger
 
 # @asynccontextmanager
 # async def lifespan(app: FastAPI):
@@ -23,9 +23,11 @@ from app.utils.logging import logger
 # app = FastAPI(lifespan=lifespan)
 app = FastAPI()
 
+logger.debug(f"ログ:ALLOW_ORIGINS: {settings.ALLOW_ORIGINS}")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.allow_origins],
+    allow_origins=[settings.ALLOW_ORIGINS],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -3,9 +3,8 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import Mapped
 from sqlalchemy_utils import UUIDType
 from uuid import uuid4
+from app.helpers.datetime import get_now
 from app.models.base_model import BaseModel
-from app.utils.datetime import DateTimeUtil
-# from app.utils.hash import verify_password
 
 class User(BaseModel):
     '''
@@ -19,8 +18,8 @@ class User(BaseModel):
     role_cls: Mapped[str] = Column(String(2), nullable=False)
     from_date: Mapped[datetime] = Column(DateTime, nullable=False)
     to_date: Mapped[datetime] = Column(DateTime, nullable=True, default=None)
-    created_at: Mapped[datetime] = Column(DateTime, default=lambda: DateTimeUtil.now())
-    updated_at: Mapped[datetime] = Column(DateTime, default=lambda: DateTimeUtil.now(), onupdate=lambda: DateTimeUtil.now())
+    created_at: Mapped[datetime] = Column(DateTime, default=lambda: get_now())
+    updated_at: Mapped[datetime] = Column(DateTime, default=lambda: get_now(), onupdate=lambda: get_now())
 
     # def verify_password(self, plain_password: str) -> bool:
     #     '''

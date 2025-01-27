@@ -1,15 +1,15 @@
 import pytest
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, Session
-from app.config.settings import settings
-from app.config.database import get_db
+from app.helpers.settings import settings
+from app.helpers.database import get_database
 
 class MockSettings:
-    database_url = "postgresql://sa:sa0000@db:5432/fastapi_db"
+    DATABASE_URL = "postgresql://sa:sa0000@db:5432/fastapi_db"
 
 @pytest.fixture(scope="module")
 def engine():
-    return create_engine(MockSettings.database_url)
+    return create_engine(MockSettings.DATABASE_URL)
 
 @pytest.fixture(scope="module")
 def SessionLocal(engine):

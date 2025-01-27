@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from app.config.database import get_db
+from app.helpers.database import get_database
 from app.errors.validation_error import ValidationError
 from app.models.auth import Auth
-from app.services.auth_service import auth_service
+# from app.services.auth_service import auth_service
+from app.usecases.auth_usecase import authenticate, verify_token, revoke_token
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -13,7 +14,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 async def login(
         response: Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
-        db: Session = Depends(get_db)
+        db: Session = Depends(get_database)
     ) -> Auth:
     '''
     ログイン
@@ -23,7 +24,7 @@ async def login(
     :return: Auth: 認証情報
     '''
     try:
-        token = auth_service.authenticate(db, form_data.username, form_data.password)
+        auth = authenticate(db, form_data.username, form_data.password)
     except ValidationError as e:
         raise HTTPException(
             status_code=422,
@@ -34,9 +35,9 @@ async def login(
         )
 
     # トークンをCookieにセット
-    response.set_cookie(key="access_token", value=f"Bearer {token.access_token}", httponly=True)
+    response.set_cookie(key="access_token", value=f"Bearer {auth.access_token}", httponly=True)
 
-    return token
+    return auth
 
 # @router.get("/users/me")
 # async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
@@ -45,7 +46,7 @@ async def login(
 #     :param token: str: トークン
 #     :return: dict: レスポンス（ユーザー情報）
 #     '''
-#     username = auth_service.verify_token(token)
+#     username = verify_token(token)
 
 #     return {"username": username}
 
@@ -56,6 +57,6 @@ async def logout(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
     :param token: str: トークン
     :return: dict: レスポンス
     '''
-    auth_service.revoke_token(token)
+    revoke_token(token)
 
     return {"msg": "Successfully logged out"}

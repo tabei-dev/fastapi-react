@@ -2,8 +2,8 @@ import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 
-# .envファイルを読み込む
 load_dotenv()
+# .envファイルの読み込み
 
 class __Settings(BaseSettings):
     '''
@@ -15,12 +15,12 @@ class __Settings(BaseSettings):
     :param secret_key: str: シークレットキー
     :param access_token_expire_minutes: int: トークンの有効期限
     '''
-    environment: str = os.getenv("ENVIRONMENT", "development")
-    allow_origins: str = os.getenv("ALLOW_ORIGINS", "http://example.com")
-    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./test.db")
-    redis_port: int = int(os.getenv("REDIS_PORT", 6379))
-    secret_key: str = os.getenv("SECRET_KEY", "secret")
-    access_token_expire_minutes: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    ALLOW_ORIGINS: str = os.getenv("ALLOW_ORIGINS", "http://example.com")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./test.db")
+    REDIS_PORT: int = int(os.getenv("REDIS_PORT", 6379))
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "secret")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
     model_config = SettingsConfigDict(env_file='settings.env')
 
