@@ -1,13 +1,9 @@
+from app.domain.value_objects.classification import ClassificationEnum, Classification
+from app.domain.value_objects.classification_detail import ClassificationDetail
 from app.helpers.yaml import get_yaml_data
-from app.models.classification import (
-    ClassificationEnum,
-    Classification,
-    ClassificationDetail,
-)
-from app.models.classification import ClassificationEnum
 
 __yaml_data = get_yaml_data('classifications.yaml')
-__classifications = {}
+__classifications: dict[ClassificationEnum, dict[str, ClassificationDetail]] = {}
 for classification in __yaml_data['classifications']:
     classification_name = ClassificationEnum[classification['classification_name']]
     details = {
@@ -30,7 +26,7 @@ def get_classification_details(classification_enum: ClassificationEnum) -> dict[
     :return: dict[ClassificationEnum, ClassificationDetail]: 区分明細情報辞書
     :raise ValueError: 区分明細情報が見つからない場合
     '''
-    classification = __classifications.get(classification_enum)
+    classification: Classification | None = __classifications.get(classification_enum)
     if classification:
         return classification.details
 

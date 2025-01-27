@@ -1,21 +1,21 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from app.domain.value_objects.auth import Auth
 from app.helpers.database import get_database
 from app.errors.validation_error import ValidationError
-from app.models.auth import Auth
-# from app.services.auth_service import auth_service
 from app.usecases.auth_usecase import authenticate, verify_token, revoke_token
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-@router.post("/login", response_model=Auth)
+# @router.post("/login", response_model=Auth)
+@router.post("/login")
 async def login(
         response: Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: Session = Depends(get_database)
-    ) -> Auth:
+    ):
     '''
     ログイン
     :param response: Response: レスポンス
@@ -35,9 +35,13 @@ async def login(
         )
 
     # トークンをCookieにセット
-    response.set_cookie(key="access_token", value=f"Bearer {auth.access_token}", httponly=True)
+    response.set_cookie(key="access_token", value=f"Bearer {auth.token.value}", httponly=True)
 
-    return auth
+    return {
+        "username": auth.username.value,
+        "token_type": auth.token_type.value,
+        "access_token": auth.token.value,
+    }
 
 # @router.get("/users/me")
 # async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:

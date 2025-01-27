@@ -1,5 +1,6 @@
+from app.domain.value_objects.message import Message
 from app.helpers.yaml import get_yaml_data
-from app.models.message import Message
+# from app.models.message import Message
 
 __yaml_data = get_yaml_data('messages.yaml')
 __messages = {message['number']: Message(**message) for message in __yaml_data['messages']}
