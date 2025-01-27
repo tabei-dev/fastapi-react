@@ -3,7 +3,7 @@ from app.domain.value_objects.classification_detail import ClassificationDetail
 from app.helpers.yaml import get_yaml_data
 
 __yaml_data = get_yaml_data('classifications.yaml')
-__classifications: dict[ClassificationEnum, dict[str, ClassificationDetail]] = {}
+__classifications = {}
 for classification in __yaml_data['classifications']:
     classification_name = ClassificationEnum[classification['classification_name']]
     details = {

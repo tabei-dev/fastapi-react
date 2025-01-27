@@ -34,4 +34,4 @@ def revoke_token(access_token: str) -> None:
     # トークンをブラックリストに追加
 
 def __exists(access_token: str) -> bool:
-    return __redis.exists(access_token)
+    return __redis.get(access_token) is not None
