@@ -15,19 +15,20 @@ def authenticate(db: Session, username: str, plain_password: str) -> Auth:
     if not user_dto:
         raise ValidationError(get_message('4001'), 'username')
 
-    auth = Auth(user_dto.username, plain_password, user_dto.hashed_password)
-    return auth
+    try:
+        return Auth(username, plain_password, user_dto.hashed_password)
+    except Exception:
+        raise ValidationError(get_message('4002'), 'password')
 
 def verify_token(access_token: str) -> Username:
     if not __exists(access_token):
         raise ValidationError(get_message('4003'), 'username')
 
     token = Token(access_token)
-    username = token.fetch_username()
-    if not username:
+    try:
+        return token.fetch_username()
+    except Exception:
         raise ValidationError(get_message('4003'), 'username')
-
-    return username
 
 def revoke_token(access_token: str) -> None:
     __redis.set(access_token, "revoked", ex=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60)

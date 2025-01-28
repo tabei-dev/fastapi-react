@@ -10,6 +10,9 @@ class Token:
     def __init__(self, access_token: str):
         self.value = access_token
 
+    def __str__(self) -> str:
+        return self.value
+
     def fetch_username(self) -> Username | None:
         try:
             payload = jwt.decode(self.value, settings.SECRET_KEY, algorithms=[__ALGORITHM])
@@ -20,7 +23,8 @@ class Token:
             pass
 
         # raise ValidationError(get_message('4003'), 'username')
-        return None
+        # return None
+        raise Exception("Invalid token")
 
 def create_token(username: str) -> Token:
     access_token = __generate_access_token(username)

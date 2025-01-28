@@ -35,12 +35,12 @@ async def login(
         )
 
     # トークンをCookieにセット
-    response.set_cookie(key="access_token", value=f"Bearer {auth.token.value}", httponly=True)
+    response.set_cookie(key="access_token", value=f"Bearer {str(auth.token)}", httponly=True)
 
     return {
-        "username": auth.username.value,
-        "token_type": auth.token_type.value,
-        "access_token": auth.token.value,
+        "username": str(auth.username),
+        "token_type": str(auth.token_type),
+        "access_token": str(auth.token),
     }
 
 # @router.get("/users/me")
