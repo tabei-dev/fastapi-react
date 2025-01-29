@@ -1,6 +1,6 @@
 import pytest
 # from app.domain.value_objects.message import Message
-from app.usecases.message_usecase import get_message
+from app.services.message_service import get_message
 
 def test_get_message_success():
     # messages = {

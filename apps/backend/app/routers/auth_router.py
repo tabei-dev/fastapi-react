@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.domain.value_objects.auth import Auth
 from app.helpers.database import get_database
 from app.errors.validation_error import ValidationError
-from app.usecases.auth_usecase import authenticate, verify_token, revoke_token
+from apps.backend.app.usecases.auth_service import authenticate, verify_token, revoke_token
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

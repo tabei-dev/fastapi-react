@@ -1,7 +1,7 @@
 import pytest
 from app.domain.value_objects.classification import ClassificationEnum, Classification
 from app.domain.value_objects.classification_detail import ClassificationDetail
-from app.usecases.classification_usecase import get_classification_details, get_classification_detail
+from app.services.classification_service import get_classification_details, get_classification_detail
 # from app.models.classification import ClassificationEnum, ClassificationDetail
 
 def test_get_classification_success():

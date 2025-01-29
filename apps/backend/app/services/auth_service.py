@@ -3,10 +3,11 @@ from sqlalchemy.orm import Session
 from app.domain.value_objects.auth import Auth
 from app.domain.value_objects.token import Token
 from app.domain.value_objects.username import Username
+from app.domain.value_objects.token import Token
 from app.helpers.settings import settings
 from app.errors.validation_error import ValidationError
 from app.infrastrucure.dtos.user_dto import UserDTO
-from app.usecases.message_usecase import get_message
+from app.services.message_service import get_message
 
 __redis = Redis.Redis(host='redis', port=settings.REDIS_PORT, db=0)
 
