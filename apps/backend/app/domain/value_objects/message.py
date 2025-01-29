@@ -1,6 +1,8 @@
+import dataclasses
 from pydantic import BaseModel, StringConstraints
 from typing_extensions import Annotated
 
+@dataclasses.dataclass(frozen=True)
 class Message(BaseModel):
     '''
     メッセージ情報

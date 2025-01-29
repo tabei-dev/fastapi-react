@@ -1,5 +1,8 @@
+import dataclasses
+
+@dataclasses.dataclass(frozen=True)
 class TokenType:
-    value = "Bearer"
+    token_type = "Bearer"
 
     def __str__(self) -> str:
-        return self.value
+        return self.token_type

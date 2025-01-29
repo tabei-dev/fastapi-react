@@ -1,3 +1,4 @@
+import dataclasses
 from enum import Enum
 from pydantic import BaseModel
 from app.domain.value_objects.classification_detail import ClassificationDetail
@@ -11,6 +12,7 @@ class ClassificationEnum(Enum):
     NONE = 'NONE'
     ROLE = 'ROLE'
 
+@dataclasses.dataclass(frozen=True)
 class Classification(BaseModel):
     '''
     区分情報

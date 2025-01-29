@@ -1,7 +1,8 @@
-# from enum import Enum
+import dataclasses
 from pydantic import BaseModel, StringConstraints
 from typing_extensions import Annotated
 
+@dataclasses.dataclass(frozen=True)
 class ClassificationDetail(BaseModel):
     '''
     区分明細情報

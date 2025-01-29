@@ -1,6 +1,8 @@
+import dataclasses
+
+@dataclasses.dataclass(frozen=True)
 class Username:
-    def __init__(self, username: str):
-        self.value = username
+    username: str
 
     def __str__(self) -> str:
-        return self.value
+        return self.username

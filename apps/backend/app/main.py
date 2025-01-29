@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from app.helpers.logging import logger
 from app.helpers.settings import settings
 from app.routers.auth_router import router as auth_router
-from app.errors.validation_error import ValidationError
+from app.services.validation_error import ValidationError
 # from app.services.classification_service import classification_service
 # from app.services.message_service import message_service
 

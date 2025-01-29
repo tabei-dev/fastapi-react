@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from app.domain.value_objects.auth import Auth
 from app.helpers.database import get_database
-from app.errors.validation_error import ValidationError
-from apps.backend.app.usecases.auth_service import authenticate, verify_token, revoke_token
+from app.services.auth_service import authenticate, verify_token, revoke_token
+from app.services.validation_error import ValidationError
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -43,16 +42,16 @@ async def login(
         "access_token": str(auth.token),
     }
 
-# @router.get("/users/me")
-# async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
-#     '''
-#     ユーザー情報取得
-#     :param token: str: トークン
-#     :return: dict: レスポンス（ユーザー情報）
-#     '''
-#     username = verify_token(token)
+@router.get("/users/me")
+async def read_users_me(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
+    '''
+    ユーザー情報取得
+    :param token: str: トークン
+    :return: dict: レスポンス（ユーザー情報）
+    '''
+    username = verify_token(token)
 
-#     return {"username": username}
+    return {"username": str(username)}
 
 @router.post("/logout")
 async def logout(token: str = Depends(oauth2_scheme)) -> dict[str, str]:
